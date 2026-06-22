@@ -1,5 +1,7 @@
 import { MdArrowOutward, MdCopyright } from "react-icons/md";
+import { Link } from "react-router-dom";
 import "./styles/Contact.css";
+import "./styles/CallToAction.css";
 import content from "../data";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -21,12 +23,6 @@ const Contact = () => {
     });
 
     contactTimeline.fromTo(
-      ".contact-section h3",
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }
-    );
-
-    contactTimeline.fromTo(
       ".contact-box",
       { opacity: 0, y: 50 },
       { opacity: 1, y: 0, duration: 0.6, stagger: 0.15, ease: "power3.out" },
@@ -39,7 +35,6 @@ const Contact = () => {
   return (
     <div className="contact-section section-container" id="contact">
       <div className="contact-container">
-        <h3>{bio?.name ?? ""}</h3>
         <div className="contact-flex">
           <div className="contact-box">
             <h4>Email</h4>
@@ -75,14 +70,25 @@ const Contact = () => {
               </a>
             )}
           </div>
-          <div className="contact-box">
-            <h2>
-              Designed and Developed <br /> by <span>{bio?.name ?? ""}</span>
-            </h2>
-            <h5>
-              <MdCopyright /> {new Date().getFullYear()}
-            </h5>
+        </div>
+        <div className="contact-bottom">
+          <div className="contact-actions">
+            <Link to="/play" className="cta-btn cta-btn-play" data-cursor="disable">
+              Play With Me →
+            </Link>
+            <a
+              href={bio?.linkedin ?? "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-btn cta-btn-hire"
+              data-cursor="disable"
+            >
+              Hire Me →
+            </a>
           </div>
+          <p className="contact-copyright">
+            <MdCopyright /> {new Date().getFullYear()} All rights reserved.
+          </p>
         </div>
       </div>
     </div>

@@ -10,12 +10,28 @@
   flex-direction: column;
   justify-content: flex-start;
 }
-.contact-section h3 {
-  font-size: 32px;
-  font-weight: 400;
-  text-transform: uppercase;
+.contact-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.contact-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.contact-copyright {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
   margin: 0;
-  margin-bottom: 30px;
 }
 .contact-flex {
   display: flex;
@@ -41,30 +57,7 @@ a.contact-social {
   border-bottom: 1px solid #ccc;
   margin-bottom: 8px;
 }
-.contact-box h2 {
-  font-weight: 400;
-  font-size: 16px;
-  margin: 0;
-  line-height: 22px;
-}
-.contact-box h2 > span {
-  color: var(--accentColor);
-}
-.contact-box h5 {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 14px;
-  display: flex;
-  gap: 8px;
-  opacity: 0.5;
-}
 @media only screen and (min-width: 600px) {
-  .contact-section h3 {
-    font-size: 40px;
-  }
-  .contact-box h2 {
-    font-size: 18px;
-  }
   a.contact-social {
     font-size: 18px;
   }
@@ -76,46 +69,22 @@ a.contact-social {
   }
 }
 @media only screen and (min-width: 900px) {
-  .contact-section h3 {
-    font-size: 48px;
-  }
-  .contact-box h2 {
-    font-size: 20px;
-  }
   a.contact-social {
     font-size: 22px;
   }
 }
 @media only screen and (min-width: 1300px) {
-  .contact-section h3 {
-    font-size: 55px;
-  }
-  .contact-box h2 {
-    font-size: 22px;
-  }
   a.contact-social {
     font-size: 24px;
   }
 }
 @media only screen and (min-width: 1600px) {
-  .contact-section h3 {
-    font-size: 60px;
-    margin-bottom: 40px;
-  }
-  .contact-box h2 {
-    font-size: 23px;
-  }
   a.contact-social {
     font-size: 25px;
   }
   .contact-flex p {
     margin-top: 10px;
     margin-bottom: 20px;
-  }
-  .contact-box h5 {
-    font-size: 20px;
-    line-height: 20px;
-    gap: 10px;
   }
 }
 @media only screen and (max-width: 900px) {
@@ -135,5 +104,9 @@ a.contact-social {
   }
   .contact-container {
     width: calc(100% - 25px);
+  }
+  .contact-bottom {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

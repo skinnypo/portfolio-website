@@ -9,6 +9,7 @@ import experienceRouter from './routes/admin/experience.js'
 import skillsRouter from './routes/admin/skills.js'
 import uploadRouter from './routes/admin/upload.js'
 import contactRouter from './routes/contact.js'
+import chatRouter from './routes/chat.js'
 
 const app = express()
 const port = process.env.PORT ?? 3000
@@ -29,6 +30,7 @@ app.use(express.json())
 
 app.get('/api/health', (_req, res) => { res.json({ status: 'ok' }) })
 app.use('/api/contact', contactRouter)
+app.use('/api/chat', chatRouter)
 
 app.use('/api/admin', authRouter)
 app.use('/api/admin/bio', authMiddleware, bioRouter)

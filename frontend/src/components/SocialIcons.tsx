@@ -7,6 +7,7 @@ import {
 import "./styles/SocialIcons.css";
 import { TbNotes } from "react-icons/tb";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import HoverLinks from "./HoverLinks";
 import content from "../data";
 
@@ -86,12 +87,17 @@ const SocialIcons = () => {
           </span>
         )}
       </div>
-      <a className="resume-button" href="#">
-        <HoverLinks text="RESUME" />
-        <span>
-          <TbNotes />
-        </span>
-      </a>
+      <div className="right-buttons">
+        <Link to="/play" className="resume-button" data-cursor="disable">
+          <HoverLinks text="PLAY" />
+        </Link>
+        <a className="resume-button" href="#" data-cursor="disable">
+          <HoverLinks text="RESUME" />
+          <span>
+            <TbNotes />
+          </span>
+        </a>
+      </div>
     </div>
   );
 };

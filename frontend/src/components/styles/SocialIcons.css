@@ -43,13 +43,21 @@
   will-change: left, top;
   transition: transform 0.3s ease-out;
 }
-.resume-button {
+.right-buttons {
   position: absolute;
   z-index: 99;
   display: flex;
-  gap: 5px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
   bottom: 40px;
   right: 0;
+  transform-origin: left bottom;
+  transform: translateX(100%) rotateZ(-90deg);
+}
+.resume-button {
+  display: flex;
+  gap: 5px;
   width: auto;
   text-wrap: nowrap;
   letter-spacing: 4px;
@@ -59,13 +67,11 @@
   color: #5e5e5e;
   cursor: pointer;
   transition: 0.5s;
-  transform-origin: left bottom;
-  transform: translateX(100%) rotateZ(-90deg);
 }
 .resume-button:hover {
   color: #fff;
 }
-div.resume-button span {
+.resume-button span {
   color: #fff;
   font-size: 17px;
   margin-top: -1px;
@@ -91,12 +97,18 @@ div.resume-button span {
   }
 }
 @media only screen and (min-width: 768px) {
-  .resume-button {
+  .right-buttons {
     transform: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    bottom: 30px;
+  }
+  .resume-button {
     font-size: 20px;
     line-height: 20px;
   }
-  div.resume-button span {
+  .resume-button span {
     font-size: 23px;
     margin-top: -1.5px;
   }

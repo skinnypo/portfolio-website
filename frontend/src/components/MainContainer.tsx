@@ -1,16 +1,14 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 import About from "./About";
 import Career from "./Career";
-import Contact from "./Contact";
 import ContactForm from "./ContactForm";
+import Footer from "./Footer";
 import Cursor from "./Cursor";
 import Landing from "./Landing";
 import Navbar from "./Navbar";
 import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
-import TechStackNew from "./TechStackNew";
-import CallToAction from "./CallToAction";
 import setSplitText from "./utils/splitText";
 
 const MainContainer = ({ children }: PropsWithChildren) => {
@@ -43,10 +41,8 @@ const MainContainer = ({ children }: PropsWithChildren) => {
         <WhatIDo />
         <Career />
         <Work />
-        <TechStackNew />
-        <CallToAction />
         <ContactForm />
-        <Contact />
+        <Footer />
       </div>
     </div>
   );

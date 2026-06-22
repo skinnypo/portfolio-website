@@ -39,7 +39,3 @@ references/
 
 # CI/deploy configs not needed in image
 .github/
-
-# Workspace root lockfile/config not needed by services
-pnpm-lock.yaml
-pnpm-workspace.yaml

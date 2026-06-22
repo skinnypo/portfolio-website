@@ -77,6 +77,7 @@ const Play = () => {
   const [playerColor] = useState<Color>("w");
   const [engineThinking, setEngineThinking] = useState(false);
   const redoxchessRef = useRef<RedoxChessEngine | null>(null);
+  const isSendingRef = useRef(false);
 
   // Chat state
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
@@ -224,9 +225,11 @@ const Play = () => {
   };
 
   const sendMessage = async () => {
-    if (!chatInput.trim()) return;
+    if (!chatInput.trim() || isSendingRef.current) return;
 
-    const userMessage: ChatMessage = { role: 'user', content: chatInput };
+    isSendingRef.current = true;
+    const input = chatInput;
+    const userMessage: ChatMessage = { role: 'user', content: input };
     setChatMessages(prev => [...prev, userMessage]);
     setChatInput('');
     setIsTyping(true);
@@ -238,39 +241,34 @@ const Play = () => {
           role: m.role,
           content: m.content
         })),
-        { role: 'user', content: chatInput }
+        { role: 'user', content: input }
       ];
 
-      const response = await fetch('/api/chat', {
+      const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          messages: messages,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages }),
       });
 
-      const data = await response.json();
-
-      if (data.choices && data.choices[0]?.message?.content) {
-        const assistantMessage: ChatMessage = {
-          role: 'assistant',
-          content: data.choices[0].message.content
-        };
-        setChatMessages(prev => [...prev, assistantMessage]);
-      } else {
-        throw new Error('Invalid response');
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error((data as { error?: string })?.error ?? 'Failed to get response.');
       }
+
+      const data = await res.json();
+      const content = data.choices?.[0]?.message?.content;
+      if (!content) throw new Error('Invalid response from server.');
+
+      setChatMessages(prev => [...prev, { role: 'assistant', content }]);
     } catch (error) {
       console.error('Chat error:', error);
-      const errorMessage: ChatMessage = {
+      setChatMessages(prev => [...prev, {
         role: 'assistant',
-        content: 'Sorry, having some connection issues. Try again? 😅'
-      };
-      setChatMessages(prev => [...prev, errorMessage]);
+        content: error instanceof Error ? error.message : 'Something went wrong. Try again? 😅'
+      }]);
     } finally {
       setIsTyping(false);
+      isSendingRef.current = false;
     }
   };
 

@@ -14,8 +14,6 @@ const Navbar = () => {
   const initials = bio?.name
     ? bio.name.split(" ").map((w) => w[0].toUpperCase()).join("")
     : "K";
-  const email = bio?.email ?? "";
-
   useEffect(() => {
     // Initialize Lenis smooth scroll
     lenis = new Lenis({
@@ -76,17 +74,15 @@ const Navbar = () => {
         <a href="/#" className="navbar-title" data-cursor="disable">
           {initials}
         </a>
-        <a
-          href={`mailto:${email}`}
-          className="navbar-connect"
-          data-cursor="disable"
-        >
-          {email}
-        </a>
         <ul>
           <li>
             <a data-href="#about" href="#about">
               <HoverLinks text="ABOUT" />
+            </a>
+          </li>
+          <li>
+            <a data-href="#experience" href="#experience">
+              <HoverLinks text="EXPERIENCES" />
             </a>
           </li>
           <li>
@@ -95,7 +91,7 @@ const Navbar = () => {
             </a>
           </li>
           <li>
-            <a data-href="#contact" href="#contact">
+            <a data-href="#get-in-touch" href="#get-in-touch">
               <HoverLinks text="CONTACT" />
             </a>
           </li>
