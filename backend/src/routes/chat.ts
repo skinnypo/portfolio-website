@@ -41,7 +41,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 
     if (!response.ok) {
       const errText = await response.text()
-      let errMessage = 'Gemini API error'
+      let errMessage = `Gemini API error (${response.status})`
       try { errMessage = JSON.parse(errText)?.error?.message || errMessage } catch {}
       return res.status(response.status).json({ error: errMessage })
     }
