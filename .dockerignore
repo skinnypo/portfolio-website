@@ -1,0 +1,45 @@
+# Dependencies (installed inside containers)
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Build outputs (frontend built inside container, backend compiled inside container)
+frontend/dist/
+backend/dist/
+*.tsbuildinfo
+
+# Environment (injected at runtime via env_file)
+.env
+.env.*
+!.env.example
+
+# Git
+.git/
+.gitignore
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+**/.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# BMAD workflow artifacts
+_bmad/
+_bmad-output/
+.claude/
+
+# Reference materials
+references/
+
+# CI/deploy configs not needed in image
+.github/
+
+# Workspace root lockfile/config not needed by services
+pnpm-lock.yaml
+pnpm-workspace.yaml
