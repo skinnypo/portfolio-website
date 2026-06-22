@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 .PHONY: help install dev dev-backend dev-frontend build up up-build down restart logs \
-        db-migrate db-seed db-studio db-reset lint clean
+        db-migrate db-seed db-studio db-reset lint clean rebuild-content
 
 # ── Colors ──────────────────────────────────────────────────────────────────
 CYAN  := \033[36m
@@ -23,6 +23,7 @@ help:
 	@echo "    build          Build all Docker images without starting"
 	@echo "    down           Stop and remove containers"
 	@echo "    restart        down + up-build"
+	@echo "    rebuild-content  Re-fetch content from DB and rebuild frontend (after admin update)"
 	@echo "    logs           Follow logs from all services"
 	@echo "    logs-backend   Follow backend logs only"
 	@echo "    logs-frontend  Follow frontend-builder logs only"
@@ -64,6 +65,9 @@ down:
 	docker compose down
 
 restart: down up-build
+
+rebuild-content:
+	docker compose up -d --build frontend-builder && docker compose restart nginx
 
 logs:
 	docker compose logs -f

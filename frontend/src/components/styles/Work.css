@@ -38,7 +38,7 @@
   flex-direction: column;
   width: 600px;
   box-sizing: border-box;
-  border-right: 1px solid #363636;
+  border-right: 1px solid rgba(201, 162, 39, 0.2);
   flex-shrink: 0;
   gap: 50px;
   justify-content: start;
@@ -53,7 +53,7 @@
   content: "";
   width: calc(50000vw);
   height: 1px;
-  background-color: #363636;
+  background-color: rgba(201, 162, 39, 0.2);
   position: absolute;
   left: 50%;
   top: 0;
@@ -89,14 +89,23 @@
 }
 
 .work-info p {
-  font-weight: 200;
-  color: #adacac;
+  font-weight: 400;
+  color: rgba(240, 230, 200, 0.75);
   margin: 0;
   margin-top: 3px;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .work-info>p {
   width: 90%;
+}
+
+.work-technologies {
+  font-size: 13px;
+  color: rgba(240, 230, 200, 0.5) !important;
+  line-height: 1.5;
+  margin-top: 10px !important;
 }
 
 .work-image {
@@ -121,8 +130,8 @@
   justify-content: center;
   align-items: center;
   font-size: 25px;
-  box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5),
-    inset 0px 0px 10px 0px #393939;
+  box-shadow: 0px 0px 10px 0px rgba(201, 162, 39, 0.4),
+    inset 0px 0px 10px 0px #2a1f08;
   transition: 0.3s;
   opacity: 0;
 }
@@ -264,12 +273,12 @@
 .see-all-works h3 {
   font-size: 32px;
   font-weight: 500;
-  color: #fff;
+  color: #f0e6c8;
 }
 
 .see-all-works p {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(240, 230, 200, 0.6);
   max-width: 250px;
 }
 
@@ -288,7 +297,7 @@
 
 .see-all-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 10px 30px rgba(194, 164, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(201, 162, 39, 0.4);
 }
 
 /* Mobile: Stack work items vertically when GSAP pinning is disabled */
@@ -310,7 +319,7 @@
     max-width: 100%;
     padding: 30px 15px;
     border-right: none;
-    border-bottom: 1px solid #363636;
+    border-bottom: 1px solid rgba(201, 162, 39, 0.2);
     gap: 20px;
   }
 

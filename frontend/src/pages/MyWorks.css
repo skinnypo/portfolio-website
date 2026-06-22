@@ -31,7 +31,7 @@
   font-size: 70px;
   font-weight: 500;
   margin-bottom: 15px;
-  color: #fff;
+  color: #f0e6c8;
 }
 
 .myworks-header h1 span {
@@ -40,7 +40,7 @@
 
 .myworks-header p {
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(240, 230, 200, 0.6);
 }
 
 .myworks-grid {
@@ -52,8 +52,8 @@
 }
 
 .myworks-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(201, 162, 39, 0.03);
+  border: 1px solid rgba(201, 162, 39, 0.15);
   border-radius: 15px;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -63,7 +63,7 @@
 .myworks-card:hover {
   transform: translateY(-10px);
   border-color: var(--accentColor);
-  box-shadow: 0 20px 40px rgba(194, 164, 255, 0.15);
+  box-shadow: 0 20px 40px rgba(201, 162, 39, 0.15);
 }
 
 .myworks-card-number {
@@ -104,7 +104,7 @@
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 8px;
-  color: #fff;
+  color: #f0e6c8;
 }
 
 .myworks-card-category {
@@ -115,14 +115,14 @@
 
 .myworks-card-description {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(240, 230, 200, 0.75);
   line-height: 1.6;
   margin-bottom: 15px;
 }
 
 .myworks-card-tech {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(240, 230, 200, 0.5);
   line-height: 1.5;
 }
 

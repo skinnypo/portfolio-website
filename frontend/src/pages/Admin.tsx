@@ -28,20 +28,22 @@ async function apiFetch(path: string, opts?: RequestInit) {
 
 function LoginForm({ onLogin }: { onLogin: (token: string) => void }) {
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [step, setStep] = useState<"password" | "otp">("password");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const submit = async (e: React.FormEvent) => {
+  const submitPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
     try {
-      const data = await apiFetch("/login", {
+      await apiFetch("/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
       });
-      onLogin(data.token);
+      setStep("otp");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
@@ -49,23 +51,72 @@ function LoginForm({ onLogin }: { onLogin: (token: string) => void }) {
     }
   };
 
+  const submitOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      const data = await apiFetch("/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ otp }),
+      });
+      onLogin(data.token);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Verification failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={styles.page} className="admin-page">
-      <form onSubmit={submit} style={styles.loginForm}>
-        <h1 style={styles.h1}>Admin</h1>
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={styles.input}
-          required
-        />
-        <button type="submit" disabled={loading} style={styles.btn}>
-          {loading ? "..." : "Login"}
-        </button>
-        {error && <p style={styles.error}>{error}</p>}
-      </form>
+      {step === "password" ? (
+        <form onSubmit={submitPassword} style={styles.loginForm}>
+          <h1 style={styles.h1}>Admin</h1>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={styles.input}
+            required
+          />
+          <button type="submit" disabled={loading} style={styles.btn}>
+            {loading ? "..." : "Continue"}
+          </button>
+          {error && <p style={styles.error}>{error}</p>}
+        </form>
+      ) : (
+        <form onSubmit={submitOtp} style={styles.loginForm}>
+          <h1 style={styles.h1}>Admin</h1>
+          <p style={{ color: "#aaa", fontSize: 13, margin: 0 }}>
+            A 6-digit code was sent to your email. Enter it below.
+          </p>
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="000000"
+            maxLength={6}
+            value={otp}
+            onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+            style={{ ...styles.input, letterSpacing: "0.3em", textAlign: "center" }}
+            autoFocus
+            required
+          />
+          <button type="submit" disabled={loading} style={styles.btn}>
+            {loading ? "..." : "Verify"}
+          </button>
+          <button
+            type="button"
+            onClick={() => { setStep("password"); setOtp(""); setError(""); }}
+            style={{ ...styles.btn, background: "#555" }}
+          >
+            Back
+          </button>
+          {error && <p style={styles.error}>{error}</p>}
+        </form>
+      )}
     </div>
   );
 }
@@ -358,12 +409,12 @@ function CrudTab({
 
 function coerce(
   draft: Record<string, unknown>,
-  fields: { key: string; type?: string }[]
+  fields: { key: string; type?: string; multiline?: boolean }[]
 ): Record<string, unknown> {
   const out: Record<string, unknown> = { ...draft };
   for (const f of fields) {
     if (f.type === "number") out[f.key] = Number(out[f.key] ?? 0);
-    if (f.key === "responsibilities" || f.key === "technologies") {
+    if (f.multiline && (f.key === "responsibilities" || f.key === "technologies")) {
       out[f.key] = String(out[f.key] ?? "")
         .split("\n")
         .map((s) => s.trim())

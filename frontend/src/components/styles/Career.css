@@ -17,7 +17,7 @@
   line-height: 70px;
   font-weight: 400;
   text-align: center;
-  background: linear-gradient(0deg, #7f40ff, #ffffff);
+  background: linear-gradient(0deg, #7a4f1a, #f0e6c8);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -27,7 +27,6 @@
 }
 
 .career-section h2>span {
-  font-family: "Geist", sans-serif;
   font-weight: 300;
 }
 
@@ -60,10 +59,11 @@
 }
 
 .career-info h3 {
-  font-size: 48px;
+  font-size: 26px;
   margin: 0;
-  font-weight: 500;
-  line-height: 45px;
+  font-weight: 400;
+  line-height: 30px;
+  opacity: 0.6;
 }
 
 .career-info h4 {
@@ -91,7 +91,7 @@
   width: 3px;
   height: 100%;
   background-image: linear-gradient(to top,
-      #aa42ff 20%,
+      #7a4f1a 20%,
       var(--accentColor) 50%,
       transparent 95%);
   max-height: 0%;
@@ -102,12 +102,12 @@
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 50%);
-  background-color: #aa42ff;
+  background-color: #c9a227;
   width: 10px;
   height: 10px;
   border-radius: 50px;
-  box-shadow: 0px 0px 5px 2px #d29bff, 0px 0px 15px 8px #d097ff,
-    0px 0px 110px 20px #f2c0ff;
+  box-shadow: 0px 0px 5px 2px #c9a227, 0px 0px 15px 8px rgba(201, 162, 39, 0.6),
+    0px 0px 110px 20px rgba(201, 162, 39, 0.25);
   animation: timeline 0.8s linear infinite forwards;
 }
 
@@ -118,7 +118,7 @@
   50%,
   70%,
   90% {
-    box-shadow: 0px 0px 5px 2px #d29bff;
+    box-shadow: 0px 0px 5px 2px #c9a227;
   }
 
   10%,
@@ -127,19 +127,19 @@
   100%,
   64%,
   80% {
-    box-shadow: 0px 0px 5px 2px #d29bff, 0px 0px 15px 5px #d097ff,
-      0px 0px 110px 20px #f2c0ff;
+    box-shadow: 0px 0px 5px 2px #c9a227, 0px 0px 15px 5px rgba(201, 162, 39, 0.6),
+      0px 0px 110px 20px rgba(201, 162, 39, 0.25);
   }
 }
 
 @keyframes timeline2 {
   0% {
-    box-shadow: 0px 0px 5px 2px #d29bff;
+    box-shadow: 0px 0px 5px 2px #c9a227;
   }
 
   100% {
-    box-shadow: 0px 0px 5px 2px #d29bff, 0px 0px 15px 5px #d097ff,
-      0px 0px 110px 20px #f2c0ff;
+    box-shadow: 0px 0px 5px 2px #c9a227, 0px 0px 15px 5px rgba(201, 162, 39, 0.6),
+      0px 0px 110px 20px rgba(201, 162, 39, 0.25);
   }
 }
 
@@ -160,7 +160,7 @@
   }
 
   .career-info h3 {
-    font-size: 40px;
+    font-size: 22px;
   }
 
   .career-info-box p {
@@ -184,7 +184,7 @@
   }
 
   .career-info h3 {
-    font-size: 36px;
+    font-size: 20px;
   }
 
   .career-info h4 {
@@ -199,7 +199,7 @@
   }
 
   .career-info h3 {
-    font-size: 38px;
+    font-size: 22px;
   }
 }
 
@@ -252,7 +252,7 @@
   }
 
   .career-info h3 {
-    font-size: 33px;
+    font-size: 20px;
   }
 
   .career-info-in,

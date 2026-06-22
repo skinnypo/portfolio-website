@@ -144,7 +144,7 @@
     width: 100%;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 0 40px rgba(194, 164, 255, 0.4));
+    filter: drop-shadow(0 0 40px rgba(201, 162, 39, 0.4));
   }
 }
 
@@ -171,8 +171,8 @@
   position: fixed;
   width: 300px;
   height: 300px;
-  background-color: #fb8dff;
-  box-shadow: inset -50px 40px 50px rgba(84, 0, 255, 0.6);
+  background-color: #c9a227;
+  box-shadow: inset -50px 40px 50px rgba(120, 70, 0, 0.5);
   filter: blur(60px);
   border-radius: 50%;
   animation: loadingCircle 5s linear infinite;
@@ -211,8 +211,8 @@
   display: none;
   width: 300px;
   height: 300px;
-  background-color: #fb8dff;
-  box-shadow: inset -50px 40px 50px rgba(84, 0, 255, 0.6);
+  background-color: #c9a227;
+  box-shadow: inset -50px 40px 50px rgba(120, 70, 0, 0.5);
   filter: blur(50px);
   border-radius: 50%;
   animation: loadingCircle2 5s linear infinite;
@@ -244,9 +244,9 @@
   width: 400px;
   height: 400px;
   z-index: 1;
-  background-color: #f59bf8;
+  background-color: #c9a227;
   transform: translate(-50%, 36%) scaleX(1.4);
-  box-shadow: inset 66px 35px 85px 0px rgba(85, 0, 255, 0.65);
+  box-shadow: inset 66px 35px 85px 0px rgba(120, 70, 0, 0.5);
   filter: blur(50px);
   border-radius: 50%;
   top: 50%;
@@ -339,7 +339,6 @@
   font-size: 28px;
   line-height: 28px;
   font-weight: 500;
-  font-family: "Geist", sans-serif;
 }
 
 /* .landing-intro h1 span {
@@ -367,10 +366,9 @@
   margin: 0;
   margin-top: -20px;
   margin-left: 20px;
-  font-family: "Geist", sans-serif;
   font-weight: 600;
-  font-size: 28px;
-  line-height: 40px;
+  font-size: 22px;
+  line-height: 34px;
   position: relative;
   display: flex;
   flex-wrap: nowrap;
@@ -390,11 +388,10 @@
 }
 
 h2.landing-info-h2 {
-  color: #c481ff;
-  font-size: 36px;
+  color: #c9a227;
+  font-size: 28px;
   width: 150%;
   margin: 0;
-  font-family: "Geist", sans-serif;
   font-weight: 600;
   position: relative;
   margin-left: -5px;
@@ -430,12 +427,12 @@ h2.landing-info-h2 {
   }
 
   .landing-info h2 {
-    font-size: 35px;
-    line-height: 40px;
+    font-size: 28px;
+    line-height: 34px;
   }
 
   h2.landing-info-h2 {
-    font-size: 38px;
+    font-size: 30px;
   }
 }
 
@@ -458,12 +455,12 @@ h2.landing-info-h2 {
   }
 
   .landing-info h2 {
-    font-size: 45px;
-    line-height: 42px;
+    font-size: 36px;
+    line-height: 36px;
   }
 
   h2.landing-info-h2 {
-    font-size: 55px;
+    font-size: 44px;
   }
 }
 
@@ -532,11 +529,11 @@ h2.landing-info-h2 {
   }
 
   .landing-info h2 {
-    font-size: 65px;
-    line-height: 62px;
+    font-size: 52px;
+    line-height: 50px;
   }
 
   h2.landing-info-h2 {
-    font-size: 75px;
+    font-size: 60px;
   }
 }

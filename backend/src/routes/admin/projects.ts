@@ -9,7 +9,7 @@ const ProjectSchema = z.object({
   title: z.string().min(1),
   category: z.string().min(1),
   technologies: z.string().min(1),
-  image: z.string().url().optional().nullable(),
+  image: z.string().optional().nullable(),
   description: z.string().min(1),
   order: z.number().int().default(0),
 })

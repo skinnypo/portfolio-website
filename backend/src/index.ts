@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import { authMiddleware } from './middleware/auth.js'
+import { globalLimiter, chatLimiter, contactLimiter, loginLimiter } from './middleware/rateLimiter.js'
 import authRouter from './routes/admin/auth.js'
 import bioRouter from './routes/admin/bio.js'
 import projectsRouter from './routes/admin/projects.js'
@@ -19,6 +20,8 @@ const allowedOrigins = (process.env.ALLOW_ORIGIN ?? '')
   .map((o) => o.trim())
   .filter(Boolean)
 
+app.set('trust proxy', 1)
+
 app.use(cors({
   origin: (origin, cb) => {
     if (!origin || allowedOrigins.includes(origin)) return cb(null, true)
@@ -27,12 +30,13 @@ app.use(cors({
   credentials: true,
 }))
 app.use(express.json())
+app.use(globalLimiter)
 
 app.get('/api/health', (_req, res) => { res.json({ status: 'ok' }) })
-app.use('/api/contact', contactRouter)
-app.use('/api/chat', chatRouter)
+app.use('/api/contact', contactLimiter, contactRouter)
+app.use('/api/chat', chatLimiter, chatRouter)
 
-app.use('/api/admin', authRouter)
+app.use('/api/admin', loginLimiter, authRouter)
 app.use('/api/admin/bio', authMiddleware, bioRouter)
 app.use('/api/admin/projects', authMiddleware, projectsRouter)
 app.use('/api/admin/experience', authMiddleware, experienceRouter)

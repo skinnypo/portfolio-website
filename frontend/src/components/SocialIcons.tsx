@@ -5,7 +5,8 @@ import {
   FaXTwitter,
 } from "react-icons/fa6";
 import "./styles/SocialIcons.css";
-import { TbNotes } from "react-icons/tb";
+import { TbArrowUp } from "react-icons/tb";
+import { GiChessKnight } from "react-icons/gi";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import HoverLinks from "./HoverLinks";
@@ -90,11 +91,14 @@ const SocialIcons = () => {
       <div className="right-buttons">
         <Link to="/play" className="resume-button" data-cursor="disable">
           <HoverLinks text="PLAY" />
+          <span>
+            <GiChessKnight />
+          </span>
         </Link>
         <a className="resume-button" href="#" data-cursor="disable">
-          <HoverLinks text="RESUME" />
+          <HoverLinks text="TOP" />
           <span>
-            <TbNotes />
+            <TbArrowUp />
           </span>
         </a>
       </div>

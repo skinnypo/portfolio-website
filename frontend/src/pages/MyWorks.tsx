@@ -7,12 +7,12 @@ const MyWorks = () => {
     <div className="myworks-page">
       <div className="myworks-header">
         <Link to="/" className="back-button" data-cursor="disable">
-          ← Back to Home
+          ← Ride Back
         </Link>
         <h1>
-          All <span>Works</span>
+          The Full <span>Haul</span>
         </h1>
-        <p>A collection of all my projects and creations</p>
+        <p>Everything I've shipped, start to finish.</p>
       </div>
 
       <div className="myworks-grid">

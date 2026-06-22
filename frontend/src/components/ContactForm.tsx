@@ -57,17 +57,17 @@ const ContactForm = () => {
   return (
     <div className="contact-form-section section-container" id="get-in-touch">
       <div className="contact-form-container">
-        <h3>Get In Touch</h3>
+        <h3>SEND <span>WORD</span></h3>
         <p className="contact-form-subtitle">
-          Have a project in mind or want to talk? Send me a message.
+          Don't be a stranger. Drop your message and I'll write back.
         </p>
 
         <div className="contact-form-card">
           {success ? (
             <div className="contact-form-success">
-              <p className="contact-form-success-title">Message sent!</p>
+              <p className="contact-form-success-title">Word received.</p>
               <p className="contact-form-success-sub">
-                Thanks for reaching out. I&apos;ll get back to you soon.
+                I&apos;ll ride back to you shortly.
               </p>
             </div>
           ) : (
@@ -161,7 +161,7 @@ const ContactForm = () => {
                 className="contact-form-btn"
                 data-cursor="disable"
               >
-                {sending ? "Sending…" : "Send Message"}
+                {sending ? "Dispatching…" : "Dispatch"}
               </button>
             </form>
           )}

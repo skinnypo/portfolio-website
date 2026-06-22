@@ -59,3 +59,9 @@ model AdminCredential {
   id           Int    @id @default(1)
   passwordHash String
 }
+
+model OtpChallenge {
+  id        Int      @id @default(1)
+  otpHash   String
+  expiresAt DateTime
+}

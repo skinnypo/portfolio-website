@@ -27,14 +27,14 @@
 }
 
 .cta-btn-play {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(201, 162, 39, 0.08);
+  color: #f0e6c8;
+  border: 1px solid rgba(201, 162, 39, 0.2);
 }
 
 .cta-btn-play:hover {
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.1);
+  background: rgba(201, 162, 39, 0.12);
+  box-shadow: 0 8px 30px rgba(201, 162, 39, 0.1);
   transform: translateY(-2px);
 }
 
@@ -45,7 +45,7 @@
 }
 
 .cta-btn-hire:hover {
-  box-shadow: 0 8px 30px rgba(194, 164, 255, 0.35);
+  box-shadow: 0 8px 30px rgba(201, 162, 39, 0.35);
   transform: translateY(-2px);
 }
 
