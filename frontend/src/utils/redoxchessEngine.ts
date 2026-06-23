@@ -8,8 +8,13 @@ class RedoxChessEngine {
   }
 
   async init() {
+    const response = await fetch('/redoxchess.js');
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+
     return new Promise<void>((resolve) => {
-      this.engine = new Worker('/redoxchess.js');
+      this.engine = new Worker(blobUrl);
+      URL.revokeObjectURL(blobUrl);
 
       this.engine.onmessage = (event) => {
         const message = event.data;
