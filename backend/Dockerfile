@@ -1,7 +1,7 @@
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 RUN apk add --no-cache openssl
-RUN npm install -g pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
 
@@ -12,7 +12,8 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY backend/package.json ./backend/
 COPY backend/prisma ./backend/prisma/
 
-RUN pnpm install --frozen-lockfile --filter portfolio-backend
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile --filter portfolio-backend
 
 WORKDIR /app/backend
 
@@ -25,17 +26,18 @@ RUN pnpm build
 
 # ---
 
-FROM node:20-alpine AS runner
+FROM node:22-alpine AS runner
 
 RUN apk add --no-cache openssl postgresql-client
-RUN npm install -g pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY backend/package.json ./backend/
 
-RUN pnpm install --frozen-lockfile --filter portfolio-backend --prod
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile --filter portfolio-backend --prod
 
 WORKDIR /app/backend
 

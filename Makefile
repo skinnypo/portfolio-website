@@ -1,6 +1,10 @@
 .DEFAULT_GOAL := help
 .PHONY: help install dev dev-backend dev-frontend build up up-build down restart logs \
-        db-migrate db-seed db-studio db-reset lint clean rebuild-content
+        db-migrate db-seed db-studio db-reset lint clean rebuild-content \
+        image-build image-push deploy
+
+TAG := $(shell git describe --tags --abbrev=0)
+REGISTRY := skinnypo
 
 # ── Colors ──────────────────────────────────────────────────────────────────
 CYAN  := \033[36m
@@ -28,6 +32,11 @@ help:
 	@echo "    logs-backend   Follow backend logs only"
 	@echo "    logs-frontend  Follow frontend-builder logs only"
 	@echo ""
+	@echo "  $(CYAN)Deploy$(RESET)"
+	@echo "    image-build    Build backend + frontend images tagged with git SHA"
+	@echo "    image-push     Build and push images to Docker Hub"
+	@echo "    deploy         Build, push, and deploy to production server"
+	@echo ""
 	@echo "  $(CYAN)Database$(RESET)"
 	@echo "    db-migrate     Run pending Prisma migrations (dev)"
 	@echo "    db-seed        Seed the database"
@@ -52,6 +61,18 @@ dev-frontend:
 	pnpm --filter portfolio-frontend run dev
 
 # ── Docker ──────────────────────────────────────────────────────────────────
+image-build:
+	docker build -t $(REGISTRY)/3d-portfolio-backend:$(TAG) -f backend/Dockerfile .
+	docker build -t $(REGISTRY)/3d-portfolio-frontend-builder:$(TAG) -f frontend/Dockerfile .
+
+image-push: image-build
+	docker push $(REGISTRY)/3d-portfolio-backend:$(TAG)
+	docker push $(REGISTRY)/3d-portfolio-frontend-builder:$(TAG)
+	@echo "IMAGE_TAG=$(TAG)"
+
+deploy: image-push
+	ssh deploy@smallstreetstory.com "cd 3d-portfolio && sed -i 's/^IMAGE_TAG=.*/IMAGE_TAG=$(TAG)/' .env && docker compose pull && docker compose up -d"
+
 up:
 	docker compose up -d
 
