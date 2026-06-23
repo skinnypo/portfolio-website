@@ -50,6 +50,10 @@ COPY backend/entrypoint.sh ./
 
 RUN chmod +x entrypoint.sh
 
+RUN chown -R node:node /app
+
+USER node
+
 EXPOSE 3000
 
 ENTRYPOINT ["./entrypoint.sh"]

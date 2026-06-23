@@ -1,7 +1,8 @@
 .DEFAULT_GOAL := help
 .PHONY: help install dev dev-backend dev-frontend build up up-build down restart logs \
         db-migrate db-seed db-studio db-reset lint clean rebuild-content \
-        image-build image-push deploy
+        image-build image-push deploy \
+        dev-up dev-down
 
 TAG := $(shell git describe --tags --abbrev=0)
 REGISTRY := skinnypo
@@ -15,19 +16,20 @@ help:
 	@echo ""
 	@echo "  $(CYAN)3D Portfolio — available targets$(RESET)"
 	@echo ""
-	@echo "  $(CYAN)Development$(RESET)"
+	@echo "  $(CYAN)Development (local Mac)$(RESET)"
 	@echo "    install        Install all workspace dependencies"
-	@echo "    dev            Start backend + frontend in watch mode (two terminals)"
+	@echo "    dev-up         Start local postgres (docker-compose.dev.yml)"
+	@echo "    dev-down       Stop local postgres"
 	@echo "    dev-backend    Start backend only (tsx watch)"
 	@echo "    dev-frontend   Start frontend Vite dev server"
 	@echo ""
-	@echo "  $(CYAN)Docker$(RESET)"
-	@echo "    up             docker compose up (detached)"
-	@echo "    up-build       docker compose up --build (detached)"
+	@echo "  $(CYAN)Production Docker$(RESET)"
+	@echo "    up             docker compose up -f prod (detached)"
+	@echo "    up-build       docker compose up --build -f prod (detached)"
 	@echo "    build          Build all Docker images without starting"
-	@echo "    down           Stop and remove containers"
+	@echo "    down           Stop and remove prod containers"
 	@echo "    restart        down + up-build"
-	@echo "    rebuild-content  Re-fetch content from DB and rebuild frontend (after admin update)"
+	@echo "    rebuild-content  Re-fetch content from DB and rebuild frontend"
 	@echo "    logs           Follow logs from all services"
 	@echo "    logs-backend   Follow backend logs only"
 	@echo "    logs-frontend  Follow frontend-builder logs only"
@@ -52,7 +54,11 @@ help:
 install:
 	pnpm install
 
-dev: dev-backend dev-frontend
+dev-up:
+	docker compose -f docker-compose.dev.yml up -d
+
+dev-down:
+	docker compose -f docker-compose.dev.yml down
 
 dev-backend:
 	pnpm --filter portfolio-backend run dev
@@ -60,7 +66,34 @@ dev-backend:
 dev-frontend:
 	pnpm --filter portfolio-frontend run dev
 
-# ── Docker ──────────────────────────────────────────────────────────────────
+# ── Production Docker ────────────────────────────────────────────────────────
+up:
+	docker compose -f docker-compose.prod.yml up -d
+
+up-build:
+	docker compose -f docker-compose.prod.yml up -d --build
+
+build:
+	docker compose -f docker-compose.prod.yml build
+
+down:
+	docker compose -f docker-compose.prod.yml down
+
+restart: down up-build
+
+rebuild-content:
+	docker compose -f docker-compose.prod.yml up -d --build frontend-builder && docker compose -f docker-compose.prod.yml restart nginx
+
+logs:
+	docker compose -f docker-compose.prod.yml logs -f
+
+logs-backend:
+	docker compose -f docker-compose.prod.yml logs -f backend
+
+logs-frontend:
+	docker compose -f docker-compose.prod.yml logs -f frontend-builder
+
+# ── Deploy ───────────────────────────────────────────────────────────────────
 image-build:
 	docker buildx build --platform linux/amd64 -t $(REGISTRY)/3d-portfolio-backend:$(TAG) -f backend/Dockerfile . --load
 	docker buildx build --platform linux/amd64 -t $(REGISTRY)/3d-portfolio-frontend-builder:$(TAG) -f frontend/Dockerfile . --load
@@ -71,33 +104,7 @@ image-push: image-build
 	@echo "IMAGE_TAG=$(TAG)"
 
 deploy: image-push
-	ssh -i credentials/key_pair/skinnypo.pem deploy@108.136.236.123 "cd 3d-portfolio && sed -i 's/^IMAGE_TAG=.*/IMAGE_TAG=$(TAG)/' .env && docker compose pull && docker compose up -d"
-
-up:
-	docker compose up -d
-
-up-build:
-	docker compose up -d --build
-
-build:
-	docker compose build
-
-down:
-	docker compose down
-
-restart: down up-build
-
-rebuild-content:
-	docker compose up -d --build frontend-builder && docker compose restart nginx
-
-logs:
-	docker compose logs -f
-
-logs-backend:
-	docker compose logs -f backend
-
-logs-frontend:
-	docker compose logs -f frontend-builder
+	ssh -i credentials/key_pair/skinnypo.pem deploy@108.136.236.123 "cd 3d-portfolio && sed -i 's/^IMAGE_TAG=.*/IMAGE_TAG=$(TAG)/' .env && docker compose -f docker-compose.prod.yml pull && docker compose -f docker-compose.prod.yml up -d"
 
 # ── Database ─────────────────────────────────────────────────────────────────
 db-migrate:
