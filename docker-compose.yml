@@ -12,15 +12,15 @@ services:
     restart: unless-stopped
 
   backend:
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
+    image: skinnypo/3d-portfolio-backend:${IMAGE_TAG:-latest}
     env_file: .env
     depends_on:
       postgres:
         condition: service_healthy
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
     volumes:
-      - uploads:/uploads
+      - /home/deploy/uploads:/uploads
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1"]
       interval: 10s
@@ -30,33 +30,14 @@ services:
     restart: unless-stopped
 
   frontend-builder:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
+    image: skinnypo/3d-portfolio-frontend-builder:${IMAGE_TAG:-latest}
     env_file: .env
     depends_on:
       backend:
         condition: service_healthy
     volumes:
-      - frontend_dist:/dist
+      - /home/deploy/dist:/dist
     restart: "no"
-
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - frontend_dist:/usr/share/nginx/html:ro
-      - uploads:/uploads:ro
-    depends_on:
-      backend:
-        condition: service_healthy
-      frontend-builder:
-        condition: service_completed_successfully
-    restart: unless-stopped
 
 volumes:
   postgres_data:
-  frontend_dist:
-  uploads:

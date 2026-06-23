@@ -1,5 +1,5 @@
-FROM node:20-alpine
-RUN npm install -g pnpm
+FROM node:22-alpine
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
 
@@ -9,7 +9,8 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 # Frontend source
 COPY frontend/package.json ./frontend/
 
-RUN pnpm install --frozen-lockfile --filter portfolio-frontend
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile --filter portfolio-frontend
 
 WORKDIR /app/frontend
 
