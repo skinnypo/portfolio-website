@@ -62,8 +62,8 @@ dev-frontend:
 
 # ── Docker ──────────────────────────────────────────────────────────────────
 image-build:
-	docker build -t $(REGISTRY)/3d-portfolio-backend:$(TAG) -f backend/Dockerfile .
-	docker build -t $(REGISTRY)/3d-portfolio-frontend-builder:$(TAG) -f frontend/Dockerfile .
+	docker buildx build --platform linux/amd64 -t $(REGISTRY)/3d-portfolio-backend:$(TAG) -f backend/Dockerfile . --load
+	docker buildx build --platform linux/amd64 -t $(REGISTRY)/3d-portfolio-frontend-builder:$(TAG) -f frontend/Dockerfile . --load
 
 image-push: image-build
 	docker push $(REGISTRY)/3d-portfolio-backend:$(TAG)
