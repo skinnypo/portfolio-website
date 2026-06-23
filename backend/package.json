@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
+  "prisma": {
+    "seed": "tsx src/seed.ts"
+  },
   "scripts": {
     "dev": "DOTENV_CONFIG_PATH=../.env tsx watch src/index.ts",
     "build": "tsc",

@@ -71,7 +71,7 @@ image-push: image-build
 	@echo "IMAGE_TAG=$(TAG)"
 
 deploy: image-push
-	ssh deploy@smallstreetstory.com "cd 3d-portfolio && sed -i 's/^IMAGE_TAG=.*/IMAGE_TAG=$(TAG)/' .env && docker compose pull && docker compose up -d"
+	ssh -i credentials/key_pair/skinnypo.pem deploy@108.136.236.123 "cd 3d-portfolio && sed -i 's/^IMAGE_TAG=.*/IMAGE_TAG=$(TAG)/' .env && docker compose pull && docker compose up -d"
 
 up:
 	docker compose up -d
