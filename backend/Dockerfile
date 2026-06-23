@@ -49,7 +49,8 @@ COPY --from=builder /app/backend/dist ./dist/
 COPY backend/entrypoint.sh ./
 
 RUN chmod +x entrypoint.sh && \
-    chown -R node:node /app
+    chown -R node:node /app && \
+    mkdir -p /uploads && chown node:node /uploads
 
 USER node
 

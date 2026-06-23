@@ -12,11 +12,14 @@ export let lenis: Lenis | null = null;
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPhotoHovered, setIsPhotoHovered] = useState(false);
+  const [isPhotoPinned, setIsPhotoPinned] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const bio = content.bio;
   const initials = bio?.name
     ? bio.name.split(" ").map((w) => w[0].toUpperCase()).join("")
     : "K";
+  const showPhoto = isPhotoHovered || isPhotoPinned;
   useEffect(() => {
     // Initialize Lenis smooth scroll
     lenis = new Lenis({
@@ -84,9 +87,25 @@ const Navbar = () => {
   return (
     <>
       <div className="header" ref={headerRef}>
-        <a href="/#" className="navbar-title" data-cursor="disable">
-          {initials}
-        </a>
+        <div className="navbar-title-wrapper">
+          <a
+            href="/#"
+            className="navbar-title"
+            data-cursor="disable"
+            onMouseEnter={() => setIsPhotoHovered(true)}
+            onMouseLeave={() => setIsPhotoHovered(false)}
+            onClick={(e) => { e.preventDefault(); setIsPhotoPinned((v) => !v); }}
+          >
+            {initials}
+          </a>
+          <div className={`navbar-photo-popup${showPhoto ? " visible" : ""}`}>
+            {bio?.photo ? (
+              <img src={bio.photo} alt={bio.name} />
+            ) : (
+              <span>{initials}</span>
+            )}
+          </div>
+        </div>
         <div className="navbar-social" data-cursor="disable">
           {bio?.github && (
             <a href={bio.github} target="_blank" rel="noopener noreferrer">
