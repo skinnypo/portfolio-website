@@ -1,8 +1,15 @@
+import { useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
 import content from "../data";
 import "./MyWorks.css";
 
 const MyWorks = () => {
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, []);
+
   return (
     <div className="myworks-page">
       <div className="myworks-header">

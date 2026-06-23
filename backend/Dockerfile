@@ -1,7 +1,7 @@
 FROM node:22-alpine AS builder
 
-RUN apk add --no-cache openssl
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN apk add --no-cache openssl && \
+    corepack enable && corepack prepare pnpm@11.8.0 --activate
 
 WORKDIR /app
 
@@ -28,8 +28,8 @@ RUN pnpm build
 
 FROM node:22-alpine AS runner
 
-RUN apk add --no-cache openssl postgresql-client
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN apk add --no-cache openssl postgresql-client && \
+    corepack enable && corepack prepare pnpm@11.8.0 --activate
 
 WORKDIR /app
 
@@ -48,9 +48,8 @@ RUN pnpm db:generate
 COPY --from=builder /app/backend/dist ./dist/
 COPY backend/entrypoint.sh ./
 
-RUN chmod +x entrypoint.sh
-
-RUN chown -R node:node /app
+RUN chmod +x entrypoint.sh && \
+    chown -R node:node /app
 
 USER node
 

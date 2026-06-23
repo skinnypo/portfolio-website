@@ -6,7 +6,6 @@
   border-top: 1px solid rgba(201, 162, 39, 0.15);
   width: 1300px;
   max-width: calc(100% - 160px);
-  background-color: var(--backgroundColor);
 }
 .footer-copyright {
   display: flex;

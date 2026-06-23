@@ -2,7 +2,7 @@
 .PHONY: help install dev dev-backend dev-frontend build up up-build down restart logs \
         db-migrate db-seed db-studio db-reset lint clean rebuild-content \
         image-build image-push deploy \
-        dev-up dev-down
+        dev-up dev-down dev-db
 
 TAG := $(shell git describe --tags --abbrev=0)
 REGISTRY := skinnypo
@@ -18,8 +18,9 @@ help:
 	@echo ""
 	@echo "  $(CYAN)Development (local Mac)$(RESET)"
 	@echo "    install        Install all workspace dependencies"
-	@echo "    dev-up         Start local postgres (docker-compose.dev.yml)"
-	@echo "    dev-down       Stop local postgres"
+	@echo "    dev-up         Full dev stack: postgres+backend+frontend+nginx (docker-compose.dev.yml)"
+	@echo "    dev-down       Stop full dev stack"
+	@echo "    dev-db         Start postgres only (for local hot-reload dev)"
 	@echo "    dev-backend    Start backend only (tsx watch)"
 	@echo "    dev-frontend   Start frontend Vite dev server"
 	@echo ""
@@ -55,10 +56,13 @@ install:
 	pnpm install
 
 dev-up:
-	docker compose -f docker-compose.dev.yml up -d
+	docker compose -f docker-compose.dev.yml up -d --build
 
 dev-down:
 	docker compose -f docker-compose.dev.yml down
+
+dev-db:
+	docker compose -f docker-compose.dev.yml up -d postgres
 
 dev-backend:
 	pnpm --filter portfolio-backend run dev

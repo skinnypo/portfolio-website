@@ -28,9 +28,6 @@ const Landing = ({ children }: PropsWithChildren) => {
               <div className="landing-h2-1">{title}</div>
             </h2>
           </div>
-          <div className="mobile-photo">
-            <img src={content.bio?.photo ?? "/images/mypicnbg.png"} alt={name} />
-          </div>
         </div>
         {children}
       </div>

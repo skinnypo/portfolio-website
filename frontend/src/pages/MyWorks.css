@@ -1,3 +1,8 @@
+/* Override body overflow for myworks page */
+body:has(.myworks-page) {
+  overflow: auto !important;
+}
+
 .myworks-page {
   min-height: 100vh;
   background-color: var(--backgroundColor);

@@ -79,17 +79,18 @@ body:has(.play-page) {
   margin-bottom: 15px;
   position: relative;
   z-index: 1;
+  text-align: center;
 }
 
 .play-header .back-button {
   display: inline-block;
   color: var(--accentColor);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 16px;
   transition: all 0.3s ease;
-  padding: 8px 16px;
-  border: 1px solid rgba(201, 162, 39, 0.3);
-  border-radius: 20px;
+  padding: 10px 20px;
+  border: 1px solid var(--accentColor);
+  border-radius: 30px;
 }
 
 .play-header .back-button:hover {
