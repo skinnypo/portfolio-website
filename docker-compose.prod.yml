@@ -45,6 +45,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    ports:
+      - "127.0.0.1:1337:1337"
     volumes:
       - /home/deploy/strapi-uploads:/app/strapi/public/uploads
     healthcheck:

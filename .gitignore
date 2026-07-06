@@ -49,3 +49,5 @@ credentials/
 # Pre-Strapi-migration content backup (personal data, reference only)
 content-backup-pre-strapi-migration.json
 content-backup-pre-strapi-migration-uploads/
+content-backup-prod-pre-strapi-migration.json
+content-backup-prod-pre-strapi-migration-uploads/
