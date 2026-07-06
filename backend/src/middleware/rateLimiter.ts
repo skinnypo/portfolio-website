@@ -25,12 +25,3 @@ export const contactLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many contact requests, please try again later' },
 })
-
-// Login brute-force protection
-export const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 10,
-  standardHeaders: 'draft-8',
-  legacyHeaders: false,
-  message: { error: 'Too many login attempts, please try again later' },
-})
