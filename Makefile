@@ -1,6 +1,7 @@
 .DEFAULT_GOAL := help
 .PHONY: help install dev dev-backend dev-frontend build up up-build down restart logs \
-        db-migrate db-seed db-studio db-reset lint clean rebuild-content \
+        logs-backend logs-frontend logs-strapi \
+        db-migrate db-seed db-studio db-reset db-create-strapi dev-db-create-strapi lint clean rebuild-content \
         image-build image-push deploy \
         dev-up dev-down dev-db
 
@@ -45,6 +46,8 @@ help:
 	@echo "    db-seed        Seed the database"
 	@echo "    db-studio      Open Prisma Studio in browser"
 	@echo "    db-reset       Drop + recreate DB, run migrations, seed"
+	@echo "    db-create-strapi      One-time: create the strapi DB on an existing prod postgres volume"
+	@echo "    dev-db-create-strapi  Same, for the dev postgres volume"
 	@echo ""
 	@echo "  $(CYAN)Quality$(RESET)"
 	@echo "    lint           Run ESLint on frontend"
@@ -86,7 +89,7 @@ down:
 restart: down up-build
 
 rebuild-content:
-	docker compose -f docker-compose.prod.yml up -d --build frontend-builder && docker compose -f docker-compose.prod.yml restart nginx
+	docker compose -f docker-compose.prod.yml up -d --force-recreate frontend-builder
 
 logs:
 	docker compose -f docker-compose.prod.yml logs -f
@@ -97,13 +100,18 @@ logs-backend:
 logs-frontend:
 	docker compose -f docker-compose.prod.yml logs -f frontend-builder
 
+logs-strapi:
+	docker compose -f docker-compose.prod.yml logs -f strapi
+
 # ── Deploy ───────────────────────────────────────────────────────────────────
 image-build:
 	docker buildx build --platform linux/amd64 -t $(REGISTRY)/3d-portfolio-backend:$(TAG) -f backend/Dockerfile . --load
+	docker buildx build --platform linux/amd64 -t $(REGISTRY)/3d-portfolio-strapi:$(TAG) -f strapi/Dockerfile . --load
 	docker buildx build --platform linux/amd64 -t $(REGISTRY)/3d-portfolio-frontend-builder:$(TAG) -f frontend/Dockerfile . --load
 
 image-push: image-build
 	docker push $(REGISTRY)/3d-portfolio-backend:$(TAG)
+	docker push $(REGISTRY)/3d-portfolio-strapi:$(TAG)
 	docker push $(REGISTRY)/3d-portfolio-frontend-builder:$(TAG)
 	@echo "IMAGE_TAG=$(TAG)"
 
@@ -122,6 +130,14 @@ db-studio:
 
 db-reset:
 	pnpm --filter portfolio-backend exec prisma migrate reset --force
+
+# postgres/initdb.d only runs on a fresh (empty) postgres volume — run this
+# once against an already-initialized volume so the strapi database exists.
+db-create-strapi:
+	docker compose -f docker-compose.prod.yml exec postgres sh /docker-entrypoint-initdb.d/01-create-strapi-db.sh
+
+dev-db-create-strapi:
+	docker compose -f docker-compose.dev.yml exec postgres sh /docker-entrypoint-initdb.d/01-create-strapi-db.sh
 
 # ── Quality ──────────────────────────────────────────────────────────────────
 lint:

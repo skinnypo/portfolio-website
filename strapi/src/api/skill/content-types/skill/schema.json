@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "skills",
+  "info": {
+    "singularName": "skill",
+    "pluralName": "skills",
+    "displayName": "Skill",
+    "description": "Skill entries, grouped by category"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "category": { "type": "string", "required": true },
+    "name": { "type": "string", "required": true },
+    "order": { "type": "integer", "default": 0 }
+  }
+}

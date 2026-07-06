@@ -1,0 +1,33 @@
+{
+  "kind": "singleType",
+  "collectionName": "bios",
+  "info": {
+    "singularName": "bio",
+    "pluralName": "bios",
+    "displayName": "Bio",
+    "description": "Site owner bio — singleton"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text", "required": true },
+    "aboutDescription": { "type": "text", "required": true },
+    "location": { "type": "string", "required": true },
+    "email": { "type": "email", "required": true },
+    "github": { "type": "string", "required": true },
+    "linkedin": { "type": "string", "required": true },
+    "twitter": { "type": "string" },
+    "facebook": { "type": "string" },
+    "instagram": { "type": "string" },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

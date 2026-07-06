@@ -2,10 +2,16 @@
 node_modules/
 frontend/node_modules/
 backend/node_modules/
+strapi/node_modules/
 
 # Build outputs (frontend built inside container, backend compiled inside container)
 frontend/dist/
 backend/dist/
+strapi/dist/
+strapi/build/
+strapi/.cache/
+strapi/.tmp/
+strapi/.strapi/
 *.tsbuildinfo
 
 # Environment (injected at runtime via env_file)
