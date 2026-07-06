@@ -89,7 +89,7 @@ down:
 restart: down up-build
 
 rebuild-content:
-	docker compose -f docker-compose.prod.yml up -d --build frontend-builder && docker compose -f docker-compose.prod.yml restart nginx
+	docker compose -f docker-compose.prod.yml up -d --force-recreate frontend-builder
 
 logs:
 	docker compose -f docker-compose.prod.yml logs -f
