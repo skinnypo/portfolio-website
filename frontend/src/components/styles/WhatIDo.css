@@ -17,7 +17,7 @@
   display: flex;
   justify-content: center;
   position: relative;
-  z-index: 9;
+  z-index: 20;
 }
 
 .what-box h2 {
@@ -239,7 +239,7 @@
   opacity: 0.5;
   font-size: 12px;
   letter-spacing: 1px;
-  font-family: "Josefin Sans", sans-serif;
+  font-family: "Fira Code", ui-monospace, monospace;
   margin-bottom: 5px;
 }
 

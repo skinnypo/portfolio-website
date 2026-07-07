@@ -17,11 +17,7 @@
   line-height: 70px;
   font-weight: 400;
   text-align: center;
-  background: linear-gradient(0deg, #7a4f1a, #f0e6c8);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  color: var(--accentColor);
   margin-top: 50px;
   margin-bottom: 90px;
 }

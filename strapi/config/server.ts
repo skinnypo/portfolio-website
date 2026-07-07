@@ -9,9 +9,7 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Server =>
   // Served behind nginx at /cms — keeps generated admin/API links correct and
   // trusts X-Forwarded-* headers from the proxy.
   url: env('STRAPI_PUBLIC_URL', '/cms'),
-  proxy: {
-    koa: true,
-  },
+  proxy: env.bool('IS_PROXIED', true),
   webhooks: {
     populateRelations: env.bool('WEBHOOKS_POPULATE_RELATIONS', false),
   },
