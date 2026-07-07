@@ -71,13 +71,13 @@
 .what-noTouch:hover~.what-content,
 .what-box-in:hover .what-noTouch:not(:hover),
 .what-content.what-sibling {
-  min-height: 33%;
+  min-height: 35%;
   padding: 10px 50px;
 }
 
 .what-content.what-noTouch:hover,
 .what-content-active {
-  min-height: 67%;
+  min-height: 65%;
   padding: 40px 50px;
 }
 
@@ -279,7 +279,7 @@
   font-weight: 400;
   padding: 2px 7px;
   background-color: rgba(var(--accentColorRGB), 0.1);
-  border: 1px solid rgba(var(--accentColorRGB), 0.35);
+  border: 1px solid rgba(var(--backgroundColorRGB), 0.35);
   border-radius: 30px;
 }
 
@@ -360,14 +360,14 @@
 
   .what-noTouch:hover,
   .what-content-active {
-    min-height: 67%;
+    min-height: 65%;
     padding: 50px;
   }
 
   .what-noTouch:hover~.what-content,
   .what-box-in:hover .what-noTouch:not(:hover),
   .what-content.what-sibling {
-    min-height: 33%;
+    min-height: 35%;
     padding: 10px 50px;
   }
 }
