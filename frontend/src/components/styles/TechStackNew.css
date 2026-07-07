@@ -44,7 +44,7 @@
   left: 0;
   width: 100%;
   height: 150px;
-  background: linear-gradient(to bottom, #110d06 0%, transparent 100%);
+  background: linear-gradient(to bottom, var(--backgroundColor) 0%, transparent 100%);
   z-index: 2;
   pointer-events: none;
 }
@@ -57,7 +57,7 @@
   left: 0;
   width: 100%;
   height: 150px;
-  background: linear-gradient(to top, #110d06 0%, transparent 100%);
+  background: linear-gradient(to top, var(--backgroundColor) 0%, transparent 100%);
   z-index: 2;
   pointer-events: none;
 }
@@ -78,7 +78,7 @@
   font-weight: 400;
   text-transform: uppercase;
   margin-bottom: 50px;
-  background: linear-gradient(180deg, #f0e6c8 0%, #c9a227 100%);
+  background: linear-gradient(180deg, var(--accentBright) 0%, var(--accentColor) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -122,9 +122,9 @@
 
 .techstack-item:hover {
   transform: translateY(-6px) scale(1.08);
-  background: rgba(201, 162, 39, 0.1);
+  background: rgba(var(--accentColorRGB), 0.15);
   border-color: var(--accentColor);
-  box-shadow: 0 8px 30px rgba(201, 162, 39, 0.25);
+  box-shadow: 0 8px 30px rgba(var(--accentColorRGB), 0.3);
 }
 
 .techstack-item img {

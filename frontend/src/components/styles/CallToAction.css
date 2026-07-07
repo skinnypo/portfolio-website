@@ -27,25 +27,25 @@
 }
 
 .cta-btn-play {
-  background: rgba(201, 162, 39, 0.08);
-  color: #f0e6c8;
-  border: 1px solid rgba(201, 162, 39, 0.2);
+  background: rgba(var(--accentColorRGB), 0.08);
+  color: var(--textColor);
+  border: 2px solid rgba(var(--accentColorRGB), 0.4);
 }
 
 .cta-btn-play:hover {
-  background: rgba(201, 162, 39, 0.12);
-  box-shadow: 0 8px 30px rgba(201, 162, 39, 0.1);
+  background: rgba(var(--accentColorRGB), 0.14);
+  box-shadow: 0 8px 30px rgba(var(--accentColorRGB), 0.15);
   transform: translateY(-2px);
 }
 
 .cta-btn-hire {
-  background: var(--accentColor);
-  color: #000;
-  border: 1px solid var(--accentColor);
+  background: var(--accentBright);
+  color: var(--textColor);
+  border: 2px solid var(--textColor);
 }
 
 .cta-btn-hire:hover {
-  box-shadow: 0 8px 30px rgba(201, 162, 39, 0.35);
+  box-shadow: 0 8px 30px rgba(var(--accentColorRGB), 0.35);
   transform: translateY(-2px);
 }
 

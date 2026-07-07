@@ -38,7 +38,7 @@
   flex-direction: column;
   width: 600px;
   box-sizing: border-box;
-  border-right: 1px solid rgba(201, 162, 39, 0.2);
+  border-right: 1px solid rgba(var(--accentColorRGB), 0.2);
   flex-shrink: 0;
   gap: 50px;
   justify-content: start;
@@ -53,7 +53,7 @@
   content: "";
   width: calc(50000vw);
   height: 1px;
-  background-color: rgba(201, 162, 39, 0.2);
+  background-color: rgba(var(--accentColorRGB), 0.2);
   position: absolute;
   left: 50%;
   top: 0;
@@ -90,7 +90,7 @@
 
 .work-info p {
   font-weight: 400;
-  color: rgba(240, 230, 200, 0.75);
+  color: rgba(var(--textColorRGB), 0.75);
   margin: 0;
   margin-top: 3px;
   font-size: 14px;
@@ -103,7 +103,7 @@
 
 .work-technologies {
   font-size: 13px;
-  color: rgba(240, 230, 200, 0.5) !important;
+  color: rgba(var(--textColorRGB), 0.55) !important;
   line-height: 1.5;
   margin-top: 10px !important;
 }
@@ -130,8 +130,8 @@
   justify-content: center;
   align-items: center;
   font-size: 25px;
-  box-shadow: 0px 0px 10px 0px rgba(201, 162, 39, 0.4),
-    inset 0px 0px 10px 0px #2a1f08;
+  box-shadow: 0px 0px 10px 0px rgba(var(--accentColorRGB), 0.4),
+    inset 0px 0px 10px 0px rgba(var(--textColorRGB), 0.15);
   transition: 0.3s;
   opacity: 0;
 }
@@ -273,12 +273,12 @@
 .see-all-works h3 {
   font-size: 32px;
   font-weight: 500;
-  color: #f0e6c8;
+  color: var(--textColor);
 }
 
 .see-all-works p {
   font-size: 16px;
-  color: rgba(240, 230, 200, 0.6);
+  color: rgba(var(--textColorRGB), 0.6);
   max-width: 250px;
 }
 
@@ -287,8 +287,9 @@
   padding: 15px 35px;
   font-size: 16px;
   font-weight: 500;
-  color: #000;
-  background: var(--accentColor);
+  color: var(--textColor);
+  background: var(--accentBright);
+  border: 2px solid var(--textColor);
   border-radius: 30px;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -297,7 +298,7 @@
 
 .see-all-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 10px 30px rgba(201, 162, 39, 0.4);
+  box-shadow: 0 10px 30px rgba(var(--accentColorRGB), 0.4);
 }
 
 /* Mobile: Stack work items vertically when GSAP pinning is disabled */
@@ -319,7 +320,7 @@
     max-width: 100%;
     padding: 30px 15px;
     border-right: none;
-    border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+    border-bottom: 1px solid rgba(var(--accentColorRGB), 0.2);
     gap: 20px;
   }
 

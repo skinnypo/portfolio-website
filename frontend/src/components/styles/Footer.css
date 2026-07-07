@@ -3,7 +3,7 @@
   justify-content: center;
   padding: 30px 0 50px;
   margin: auto;
-  border-top: 1px solid rgba(201, 162, 39, 0.15);
+  border-top: 1px solid rgba(var(--accentColorRGB), 0.2);
   width: 1300px;
   max-width: calc(100% - 160px);
 }
@@ -12,7 +12,7 @@
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: rgba(240, 230, 200, 0.4);
+  color: rgba(var(--textColorRGB), 0.5);
   margin: 0;
 }
 @media only screen and (max-width: 900px) {

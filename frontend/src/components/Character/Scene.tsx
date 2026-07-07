@@ -34,6 +34,7 @@ const Scene = () => {
       });
       renderer.setSize(container.width, container.height);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setClearColor(0x000000, 0);
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1;
       canvasDiv.current.appendChild(renderer.domElement);
@@ -150,7 +151,6 @@ const Scene = () => {
     <>
       <div className="character-container">
         <div className="character-model" ref={canvasDiv}>
-          <div className="character-rim"></div>
           <div className="character-hover" ref={hoverDivRef}></div>
         </div>
       </div>

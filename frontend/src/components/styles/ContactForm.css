@@ -21,13 +21,13 @@
   color: var(--accentColor);
 }
 .contact-form-subtitle {
-  color: rgba(240, 230, 200, 0.5);
+  color: rgba(var(--textColorRGB), 0.6);
   font-size: 14px;
   margin: 0 0 32px;
 }
 .contact-form-card {
-  border: 1px solid rgba(201, 162, 39, 0.15);
-  background: rgba(201, 162, 39, 0.03);
+  border: 2px solid rgba(var(--textColorRGB), 0.15);
+  background: rgba(var(--accentColorRGB), 0.04);
   border-radius: 8px;
   padding: 32px;
 }
@@ -48,19 +48,19 @@
 }
 .contact-form-field label {
   font-size: 13px;
-  color: rgba(240, 230, 200, 0.7);
+  color: rgba(var(--textColorRGB), 0.75);
 }
 .contact-form-optional {
-  color: rgba(240, 230, 200, 0.35);
+  color: rgba(var(--textColorRGB), 0.4);
 }
 .contact-form-field input,
 .contact-form-field textarea {
-  background: rgba(201, 162, 39, 0.05);
-  border: 1px solid rgba(201, 162, 39, 0.15);
+  background: rgba(var(--backgroundColorRGB), 0.6);
+  border: 1px solid rgba(var(--textColorRGB), 0.2);
   border-radius: 6px;
   padding: 10px 12px;
   font-size: 14px;
-  color: #f0e6c8;
+  color: var(--textColor);
   font-family: inherit;
   outline: none;
   transition: border-color 0.2s;
@@ -77,9 +77,9 @@
 }
 .contact-form-btn {
   align-self: flex-start;
-  background: var(--accentColor);
-  color: #000;
-  border: 1px solid var(--accentColor);
+  background: var(--accentBright);
+  color: var(--textColor);
+  border: 2px solid var(--textColor);
   border-radius: 6px;
   padding: 12px 28px;
   font-size: 14px;
@@ -90,7 +90,7 @@
   letter-spacing: 0.3px;
 }
 .contact-form-btn:hover:not(:disabled) {
-  box-shadow: 0 8px 30px rgba(201, 162, 39, 0.35);
+  box-shadow: 0 8px 30px rgba(var(--accentColorRGB), 0.35);
   transform: translateY(-2px);
 }
 .contact-form-btn:disabled {
@@ -112,7 +112,7 @@
   margin: 0 0 8px;
 }
 .contact-form-success-sub {
-  color: rgba(240, 230, 200, 0.5);
+  color: rgba(var(--textColorRGB), 0.6);
   font-size: 14px;
   margin: 0;
 }

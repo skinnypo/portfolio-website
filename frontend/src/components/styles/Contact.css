@@ -18,7 +18,7 @@
   gap: 16px;
   margin-top: 50px;
   padding-top: 30px;
-  border-top: 1px solid rgba(201, 162, 39, 0.15);
+  border-top: 1px solid rgba(var(--accentColorRGB), 0.2);
 }
 .contact-actions {
   display: flex;
@@ -30,7 +30,7 @@
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: rgba(240, 230, 200, 0.4);
+  color: rgba(var(--textColorRGB), 0.5);
   margin: 0;
 }
 .contact-flex {
@@ -54,7 +54,7 @@
 }
 a.contact-social {
   font-size: 16px;
-  border-bottom: 1px solid rgba(201, 162, 39, 0.4);
+  border-bottom: 1px solid rgba(var(--accentColorRGB), 0.4);
   margin-bottom: 8px;
 }
 @media only screen and (min-width: 600px) {

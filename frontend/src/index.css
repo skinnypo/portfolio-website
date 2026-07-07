@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Baloo+2:wght@400..800&display=swap");
 
 :root {
   font-family: "Fira Code", ui-monospace, monospace;
@@ -7,8 +7,8 @@
   font-style: normal;
   line-height: 1.5;
   scroll-behavior: smooth;
-  color-scheme: dark;
-  color: #f0e6c8;
+  color-scheme: light;
+  color: var(--textColor);
   background-color: var(--backgroundColor);
 
   font-synthesis: none;
@@ -18,8 +18,14 @@
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
-  --accentColor: #c9a227;
-  --backgroundColor: #110d06;
+  --accentColor: #3e7c82;
+  --accentColorRGB: 62, 124, 130;
+  --accentBright: #bd5b4e;
+  --accentBrightRGB: 189, 91, 78;
+  --textColor: #26211c;
+  --textColorRGB: 38, 33, 28;
+  --backgroundColor: #f0e6d1;
+  --backgroundColorRGB: 240, 230, 209;
   --vh: 100vh;
   --vh: 100svh;
 }
@@ -27,14 +33,14 @@
 h1,
 h2,
 h3 {
-  font-family: "Fira Code", ui-monospace, monospace;
+  font-family: "Baloo 2", sans-serif;
   font-weight: 700;
 }
 
 h4,
 h5,
 h6 {
-  font-family: "Fira Code", ui-monospace, monospace;
+  font-family: "Baloo 2", sans-serif;
 }
 
 body {
@@ -93,7 +99,7 @@ main {
 body {
   margin: 0;
   height: auto;
-  background-color: #110d06;
+  background-color: var(--backgroundColor);
   flex-grow: 1;
   --cWidth: calc(100% - 30px);
   --cMaxWidth: 1920px;
@@ -142,27 +148,12 @@ body {
   margin-bottom: 0;
   padding-top: 150px;
   padding-bottom: 150px;
-  background: linear-gradient(180deg, rgba(17, 13, 6, 0.95) 0%, rgba(17, 13, 6, 0.98) 100%);
   background-color: var(--backgroundColor);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.techstack::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    radial-gradient(circle at 20% 50%, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 50%, rgba(201, 162, 39, 0.06) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
 }
 
 .techstack>* {
