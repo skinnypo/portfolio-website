@@ -12,9 +12,50 @@
   transform: translateX(-50%);
   top: 0;
   z-index: 9999;
+  color: var(--textColor);
+}
+
+.header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  /* overlap a couple px into the zigzag below to hide any subpixel seam */
+  height: calc(100% + 2px);
+  background-color: var(--backgroundColor);
+  z-index: -1;
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 20px;
+  /* triangle fill color must match --backgroundColor. SVG has 2px transparent
+     bleed above/below the triangle so tiling seams land outside the visible
+     20px window instead of right at its edges. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='24' viewBox='0 0 40 24'%3E%3Cpolygon points='0,2 40,2 20,22' fill='%23f0e6d1'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 40px 24px;
+  background-position: left -2px;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.header.at-landing::after {
+  opacity: 1;
 }
 .header ul {
   display: none;
+}
+.header .hover-link:hover .hover-in {
+  color: var(--accentBright);
 }
 .navbar-connect {
   position: absolute;
@@ -29,10 +70,25 @@
 .navbar-title-wrapper {
   position: relative;
 }
-.navbar-title {
+.navbar-title,
+.navbar-title:hover {
+  position: relative;
+  display: inline-block;
+  height: 18px;
+  overflow: hidden;
+  white-space: nowrap;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.2px;
+  color: inherit;
+  transition: width 0.35s ease;
+}
+.navbar-title-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 18px;
+  transition: opacity 0.25s ease;
 }
 .navbar-photo-popup {
   position: absolute;
@@ -43,8 +99,8 @@
   height: 72px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid rgba(240, 230, 200, 0.35);
-  background: rgba(20, 20, 20, 0.9);
+  border: 2px solid rgba(var(--textColorRGB), 0.25);
+  background: rgba(var(--backgroundColorRGB), 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,7 +122,7 @@
 .navbar-photo-popup span {
   font-size: 22px;
   font-weight: 700;
-  color: #f0e6c8;
+  color: var(--textColor);
   letter-spacing: 1px;
 }
 
@@ -82,10 +138,10 @@
   display: flex;
   align-items: center;
   font-size: 18px;
-  color: #f0e6c8;
+  color: var(--textColor);
 }
 .navbar-social a:hover {
-  color: var(--accentColor);
+  color: var(--accentBright);
 }
 
 /* Hamburger button */
@@ -103,7 +159,7 @@
   display: block;
   width: 24px;
   height: 2px;
-  background: #f0e6c8;
+  background: var(--textColor);
   border-radius: 2px;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -122,8 +178,8 @@
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  background: rgba(12, 12, 12, 0.96);
-  border: 1px solid rgba(240, 230, 200, 0.12);
+  background: rgba(var(--backgroundColorRGB), 0.98);
+  border: 1px solid rgba(var(--textColorRGB), 0.15);
   border-radius: 10px;
   padding: 20px 28px;
   min-width: 160px;
@@ -154,7 +210,7 @@
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 1.5px;
-  color: #f0e6c8;
+  color: var(--textColor);
   text-decoration: none;
 }
 
@@ -175,11 +231,12 @@
   .header ul li {
     margin-left: 0px;
     letter-spacing: 0.8px;
-    color: #f0e6c8;
+    color: var(--textColor);
     font-weight: 600;
     cursor: pointer;
   }
-  .navbar-title {
+  .navbar-title,
+  .navbar-title:hover {
     font-size: 16px;
   }
   .navbar-photo-popup {
@@ -212,7 +269,8 @@
   .navbar-connect {
     font-size: 16px;
   }
-  .navbar-title {
+  .navbar-title,
+  .navbar-title:hover {
     font-size: 18px;
   }
 }

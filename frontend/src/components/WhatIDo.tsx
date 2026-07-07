@@ -50,7 +50,7 @@ const WhatIDo = () => {
           {categories.map(([category, tools], index) => (
             <div
               key={category}
-              className="what-content what-noTouch"
+              className={`what-content what-noTouch ${index === 0 ? "what-content-active" : "what-sibling"}`}
               ref={(el) => setRef(el, index)}
             >
               <div className="what-border1">

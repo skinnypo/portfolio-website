@@ -1,9 +1,10 @@
 export interface Bio {
   id: number
-  name: string
+  fullName: string
+  nickName: string
   title: string
+  headline: string
   description: string
-  aboutDescription: string
   location: string
   email: string
   github: string

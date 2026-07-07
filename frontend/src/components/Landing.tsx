@@ -3,7 +3,7 @@ import "./styles/Landing.css";
 import content from "../data";
 
 const Landing = ({ children }: PropsWithChildren) => {
-  const name = content.bio?.name ?? "Krisna";
+  const name = content.bio?.nickName ?? "Krisna";
   const nameParts = name.split(" ");
   const firstName = nameParts[0];
   const lastName = nameParts.slice(1).join(" ");
@@ -14,7 +14,7 @@ const Landing = ({ children }: PropsWithChildren) => {
       <div className="landing-section" id="landingDiv">
         <div className="landing-container">
           <div className="landing-intro">
-            <h2>Howdy! I'm</h2>
+            <h2>Hey there, I'm</h2>
             <h1>
               {firstName.toUpperCase()}
               {' '}

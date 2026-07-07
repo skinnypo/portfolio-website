@@ -19,7 +19,7 @@ import { LoadingProvider } from "./context/LoadingProvider";
 const App = () => {
   const { bio } = content;
   if (bio) {
-    document.title = `${bio.name} — ${bio.title}`;
+    document.title = `${bio.fullName} — ${bio.title}`;
   }
 
   useEffect(() => {

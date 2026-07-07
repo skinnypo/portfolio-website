@@ -34,6 +34,7 @@ const Scene = () => {
       });
       renderer.setSize(container.width, container.height);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setClearColor(0x000000, 0);
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1;
       canvasDiv.current.appendChild(renderer.domElement);
@@ -41,7 +42,7 @@ const Scene = () => {
       const camera = new THREE.PerspectiveCamera(14.5, aspect, 0.1, 1000);
       camera.position.z = 10;
       camera.position.set(0, 13.1, 24.7);
-      camera.zoom = 1.1;
+      camera.zoom = 0.85;
       camera.updateProjectionMatrix();
 
       let headBone: THREE.Object3D | null = null;
@@ -150,7 +151,6 @@ const Scene = () => {
     <>
       <div className="character-container">
         <div className="character-model" ref={canvasDiv}>
-          <div className="character-rim"></div>
           <div className="character-hover" ref={hoverDivRef}></div>
         </div>
       </div>

@@ -7,7 +7,10 @@ import Marquee from "react-fast-marquee";
 
 const Loading = ({ percent }: { percent: number }) => {
   const { setIsLoading } = useLoading();
-  const fullName = content.bio?.name ?? "Portfolio";
+  const fullName = content.bio?.fullName ?? "Krisna";
+  const initials = content.bio?.fullName
+    ? content.bio.fullName.split(" ").map((w) => w[0].toUpperCase()).join("")
+    : "K";
   const title = content.bio?.title ?? "";
   const [loaded, setLoaded] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -49,7 +52,7 @@ const Loading = ({ percent }: { percent: number }) => {
     <>
       <div className="loading-header">
         <a href="/#" className="loader-title" data-cursor="disable">
-          {fullName.replace(/\s+/g, "")}
+          {initials}
         </a>
         <div className={`loaderGame ${clicked && "loader-out"}`}>
           <div className="loaderGame-container">

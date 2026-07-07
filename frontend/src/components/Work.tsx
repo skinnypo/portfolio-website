@@ -60,7 +60,7 @@ const Work = () => {
           THINGS I'VE <span>MADE</span>
         </h2>
         <div className="work-flex">
-          {content.projects.slice(0, 5).map((project, index) => (
+          {content.projects.slice(0, 3).map((project, index) => (
             <div className="work-box" key={project.id}>
               <div className="work-info">
                 <div className="work-title">

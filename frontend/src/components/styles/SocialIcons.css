@@ -64,15 +64,15 @@
   font-size: 15px;
   line-height: 15px;
   font-weight: 600;
-  color: #6b5535;
+  color: rgba(var(--textColorRGB), 0.5);
   cursor: pointer;
   transition: 0.5s;
 }
 .resume-button:hover {
-  color: #f0e6c8;
+  color: var(--textColor);
 }
 .resume-button span {
-  color: #f0e6c8;
+  color: var(--textColor);
   font-size: 17px;
   margin-top: -1px;
   display: flex;
@@ -83,7 +83,7 @@
   top: 655px;
   left: 0;
   height: 1px;
-  background-color: #f0e6c8;
+  background-color: var(--textColor);
   width: 100%;
   z-index: 99999;
 }

@@ -2,7 +2,7 @@
   position: fixed;
   width: 100vw;
   height: var(--vh);
-  background-color: #f0e6c8;
+  background-color: var(--backgroundColor);
   z-index: 999999999;
   display: flex;
   place-items: center;
@@ -11,7 +11,7 @@
 .loading-button {
   padding: 20px 50px;
   border-radius: 100px;
-  background-color: #000;
+  background-color: var(--backgroundColor);
   overflow: hidden;
   font-size: 18px;
   font-weight: 500;
@@ -47,7 +47,7 @@
   min-width: 0px;
   min-height: 0px;
   border-radius: 100px;
-  background-color: #000;
+  background-color: var(--backgroundColor);
   overflow: hidden;
   transition: 0.8s ease-in-out;
   transition-delay: 0.2s;
@@ -69,7 +69,7 @@
   overflow: visible;
 }
 .loading-hover {
-  background-color: #c9a227;
+  background-color: var(--accentBright);
   width: 250px;
   height: 120px;
   position: absolute;
@@ -91,7 +91,7 @@
 }
 .loading-content {
   position: relative;
-  background-color: #000;
+  background-color: var(--backgroundColor);
   width: 100%;
   overflow: hidden;
   transition: 0.6s;
@@ -190,7 +190,7 @@
   left: 50%;
   transform: translateX(-50%);
   top: 0;
-  color: var(--backgroundColor);
+  color: var(--textColor);
 }
 .loader-title {
   font-weight: 700;
@@ -271,7 +271,7 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: #c9a227;
+  background-color: var(--accentColor);
   animation: ball25 7s infinite;
   transform: translateY(10px);
   animation-timing-function: cubic-bezier(0.3, 1.18, 0.63, 1.28);
@@ -282,7 +282,7 @@
   left: 0;
   width: 100%;
   transform: translateY(-50%);
-  color: var(--backgroundColor);
+  color: var(--textColor);
   font-size: 60px;
   font-weight: 600;
   text-transform: uppercase;
@@ -295,7 +295,7 @@
   content: "";
   width: 20px;
   height: 20px;
-  background-color: var(--backgroundColor);
+  background-color: var(--textColor);
   position: absolute;
   top: 50%;
   border-radius: 50px;

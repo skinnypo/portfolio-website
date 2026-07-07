@@ -12,10 +12,11 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": { "type": "string", "required": true },
+    "fullName": { "type": "string", "required": true },
+    "nickName": { "type": "string", "required": true },
     "title": { "type": "string", "required": true },
+    "headline": { "type": "text", "required": true },
     "description": { "type": "text", "required": true },
-    "aboutDescription": { "type": "text", "required": true },
     "location": { "type": "string", "required": true },
     "email": { "type": "email", "required": true },
     "github": { "type": "string", "required": true },

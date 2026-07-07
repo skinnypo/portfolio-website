@@ -42,10 +42,11 @@ const bioData = bioRes.data
 const bio = bioData
   ? {
       id: bioData.id,
-      name: bioData.name,
+      fullName: bioData.fullName,
+      nickName: bioData.nickName,
       title: bioData.title,
+      headline: bioData.headline,
       description: bioData.description,
-      aboutDescription: bioData.aboutDescription,
       location: bioData.location,
       email: bioData.email,
       github: bioData.github,
@@ -91,8 +92,8 @@ writeFileSync(
   JSON.stringify({ bio, projects, experience, skillsByCategory }, null, 2)
 )
 
-if (bio?.name) {
-  const initials = bio.name.split(' ').filter(Boolean).map(w => w[0].toUpperCase()).join('')
+if (bio?.fullName) {
+  const initials = bio.fullName.split(' ').filter(Boolean).map(w => w[0].toUpperCase()).join('')
   writeFileSync(
     path.join(__dirname, '../public/favicon.svg'),
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">

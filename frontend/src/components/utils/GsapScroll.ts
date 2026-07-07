@@ -100,12 +100,6 @@ export function setCharTimeline(
           { y: -10, z: 2 },
           { y: 0, z: 0, delay: 1.5, duration: 3 },
           0
-        )
-        .fromTo(
-          ".character-rim",
-          { opacity: 1, scaleX: 1.4 },
-          { opacity: 0, scale: 0, y: "-70%", duration: 5, delay: 2 },
-          0.3
         );
 
       tl3

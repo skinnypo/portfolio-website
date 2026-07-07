@@ -21,13 +21,13 @@
   color: var(--accentColor);
 }
 .contact-form-subtitle {
-  color: rgba(240, 230, 200, 0.5);
+  color: rgba(var(--textColorRGB), 0.6);
   font-size: 14px;
   margin: 0 0 32px;
 }
 .contact-form-card {
-  border: 1px solid rgba(201, 162, 39, 0.15);
-  background: rgba(201, 162, 39, 0.03);
+  border: 2px solid rgba(var(--textColorRGB), 0.15);
+  background: rgba(var(--accentColorRGB), 0.04);
   border-radius: 8px;
   padding: 32px;
 }
@@ -48,19 +48,19 @@
 }
 .contact-form-field label {
   font-size: 13px;
-  color: rgba(240, 230, 200, 0.7);
+  color: rgba(var(--textColorRGB), 0.75);
 }
 .contact-form-optional {
-  color: rgba(240, 230, 200, 0.35);
+  color: rgba(var(--textColorRGB), 0.4);
 }
 .contact-form-field input,
 .contact-form-field textarea {
-  background: rgba(201, 162, 39, 0.05);
-  border: 1px solid rgba(201, 162, 39, 0.15);
+  background: rgba(var(--backgroundColorRGB), 0.6);
+  border: 1px solid rgba(var(--textColorRGB), 0.2);
   border-radius: 6px;
   padding: 10px 12px;
   font-size: 14px;
-  color: #f0e6c8;
+  color: var(--textColor);
   font-family: inherit;
   outline: none;
   transition: border-color 0.2s;
@@ -76,11 +76,13 @@
   margin: 0;
 }
 .contact-form-btn {
+  position: relative;
   align-self: flex-start;
-  background: var(--accentColor);
-  color: #000;
-  border: 1px solid var(--accentColor);
-  border-radius: 6px;
+  margin-right: 16px;
+  background: var(--accentBright);
+  color: var(--backgroundColor);
+  border: none;
+  border-radius: 0;
   padding: 12px 28px;
   font-size: 14px;
   font-weight: 500;
@@ -89,8 +91,21 @@
   transition: all 0.3s ease;
   letter-spacing: 0.3px;
 }
+
+.contact-form-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(100% - 1px);
+  width: 32px;
+  height: 100%;
+  background-color: var(--accentBright);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 50%, 100% 100%, 0 100%);
+  pointer-events: none;
+}
 .contact-form-btn:hover:not(:disabled) {
-  box-shadow: 0 8px 30px rgba(201, 162, 39, 0.35);
+  color: var(--textColor);
+  box-shadow: 0 8px 30px rgba(var(--accentColorRGB), 0.35);
   transform: translateY(-2px);
 }
 .contact-form-btn:disabled {
@@ -112,7 +127,7 @@
   margin: 0 0 8px;
 }
 .contact-form-success-sub {
-  color: rgba(240, 230, 200, 0.5);
+  color: rgba(var(--textColorRGB), 0.6);
   font-size: 14px;
   margin: 0;
 }

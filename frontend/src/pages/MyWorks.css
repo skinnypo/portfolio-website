@@ -16,27 +16,43 @@ body:has(.myworks-page) {
 }
 
 .back-button {
+  position: relative;
   display: inline-block;
-  color: var(--accentColor);
+  color: var(--backgroundColor);
+  background: var(--accentColor);
   text-decoration: none;
   font-size: 16px;
   margin-bottom: 30px;
+  margin-right: 16px;
   transition: all 0.3s ease;
   padding: 10px 20px;
-  border: 1px solid var(--accentColor);
-  border-radius: 30px;
+  border: none;
+  border-radius: 0;
+}
+
+.back-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(100% - 1px);
+  width: 28px;
+  height: 100%;
+  background-color: var(--accentColor);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 50%, 100% 100%, 0 100%);
+  pointer-events: none;
 }
 
 .back-button:hover {
-  background: var(--accentColor);
-  color: #000;
+  color: var(--textColor);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(var(--accentColorRGB), 0.35);
 }
 
 .myworks-header h1 {
   font-size: 70px;
   font-weight: 500;
   margin-bottom: 15px;
-  color: #f0e6c8;
+  color: var(--textColor);
 }
 
 .myworks-header h1 span {
@@ -45,7 +61,7 @@ body:has(.myworks-page) {
 
 .myworks-header p {
   font-size: 18px;
-  color: rgba(240, 230, 200, 0.6);
+  color: rgba(var(--textColorRGB), 0.65);
 }
 
 .myworks-grid {
@@ -57,8 +73,8 @@ body:has(.myworks-page) {
 }
 
 .myworks-card {
-  background: rgba(201, 162, 39, 0.03);
-  border: 1px solid rgba(201, 162, 39, 0.15);
+  background: rgba(var(--accentColorRGB), 0.04);
+  border: 2px solid rgba(var(--textColorRGB), 0.15);
   border-radius: 15px;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -68,7 +84,7 @@ body:has(.myworks-page) {
 .myworks-card:hover {
   transform: translateY(-10px);
   border-color: var(--accentColor);
-  box-shadow: 0 20px 40px rgba(201, 162, 39, 0.15);
+  box-shadow: 0 20px 40px rgba(var(--accentColorRGB), 0.2);
 }
 
 .myworks-card-number {
@@ -76,9 +92,9 @@ body:has(.myworks-page) {
   top: 15px;
   left: 15px;
   font-size: 14px;
-  color: var(--accentColor);
+  color: var(--accentBright);
   font-weight: 600;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(var(--textColorRGB), 0.7);
   padding: 5px 12px;
   border-radius: 20px;
   z-index: 1;
@@ -88,6 +104,9 @@ body:has(.myworks-page) {
   width: 100%;
   height: 220px;
   overflow: hidden;
+  padding: 8px;
+  box-sizing: border-box;
+  background-color: var(--backgroundColor);
 }
 
 .myworks-card-image img {
@@ -109,7 +128,7 @@ body:has(.myworks-page) {
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 8px;
-  color: #f0e6c8;
+  color: var(--textColor);
 }
 
 .myworks-card-category {
@@ -120,14 +139,14 @@ body:has(.myworks-page) {
 
 .myworks-card-description {
   font-size: 14px;
-  color: rgba(240, 230, 200, 0.75);
+  color: rgba(var(--textColorRGB), 0.75);
   line-height: 1.6;
   margin-bottom: 15px;
 }
 
 .myworks-card-tech {
   font-size: 13px;
-  color: rgba(240, 230, 200, 0.5);
+  color: rgba(var(--textColorRGB), 0.55);
   line-height: 1.5;
 }
 
