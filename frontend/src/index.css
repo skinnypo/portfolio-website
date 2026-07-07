@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Baloo+2:wght@400..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Fredoka:wght@300..700&display=swap");
 
 :root {
-  font-family: "Fira Code", ui-monospace, monospace;
+  font-family: "Fredoka", sans-serif;
 
   font-optical-sizing: auto;
   font-style: normal;
@@ -33,14 +33,18 @@
 h1,
 h2,
 h3 {
-  font-family: "Baloo 2", sans-serif;
+  font-family: "Fredoka", sans-serif;
   font-weight: 700;
 }
 
 h4,
 h5,
 h6 {
-  font-family: "Baloo 2", sans-serif;
+  font-family: "Fredoka", sans-serif;
+}
+
+p {
+  font-family: "Fira Code", ui-monospace, monospace;
 }
 
 body {

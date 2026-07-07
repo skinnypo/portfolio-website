@@ -7,7 +7,7 @@ const About = () => {
       <div className="about-me">
         <h3 className="title">THE MAN</h3>
         <p className="para">
-          {content.bio?.aboutDescription ?? ""}
+          {content.bio?.description ?? ""}
         </p>
       </div>
     </div>

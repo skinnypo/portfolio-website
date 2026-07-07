@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
 import { gsap } from "gsap";
@@ -15,11 +15,20 @@ const Navbar = () => {
   const [isPhotoHovered, setIsPhotoHovered] = useState(false);
   const [isPhotoPinned, setIsPhotoPinned] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
+  const initialsRef = useRef<HTMLSpanElement>(null);
+  const fullNameRef = useRef<HTMLSpanElement>(null);
+  const [initialsWidth, setInitialsWidth] = useState<number>();
+  const [fullNameWidth, setFullNameWidth] = useState<number>();
   const bio = content.bio;
-  const initials = bio?.name
-    ? bio.name.split(" ").map((w) => w[0].toUpperCase()).join("")
+  const initials = bio?.fullName
+    ? bio.fullName.split(" ").map((w) => w[0].toUpperCase()).join("")
     : "K";
   const showPhoto = isPhotoHovered || isPhotoPinned;
+
+  useLayoutEffect(() => {
+    setInitialsWidth(initialsRef.current?.offsetWidth);
+    setFullNameWidth(fullNameRef.current?.offsetWidth);
+  }, [initials, bio?.fullName]);
   useEffect(() => {
     // Initialize Lenis smooth scroll
     lenis = new Lenis({
@@ -35,6 +44,9 @@ const Navbar = () => {
 
     // Start paused
     lenis.stop();
+
+    // Keep GSAP ScrollTrigger in sync with Lenis's smoothed scroll position
+    lenis.on("scroll", ScrollTrigger.update);
 
     // Handle smooth scroll animation frame
     function raf(time: number) {
@@ -70,8 +82,19 @@ const Navbar = () => {
       lenis?.resize();
     });
 
+    // Only show the navbar's zigzag ribbon while the landing section is in view
+    const zigzagTrigger = ScrollTrigger.create({
+      trigger: ".landing-section",
+      // small negative buffer: Lenis's eased scroll can settle a hair below 0
+      // right at the top boundary, which would otherwise fail a strict >= 0 check
+      start: -100,
+      end: "bottom top",
+      toggleClass: { targets: ".header", className: "at-landing" },
+    });
+
     return () => {
       lenis?.destroy();
+      zigzagTrigger.kill();
     };
   }, []);
 
@@ -92,15 +115,29 @@ const Navbar = () => {
             href="/#"
             className="navbar-title"
             data-cursor="disable"
+            style={{ width: (showPhoto ? fullNameWidth : initialsWidth) ?? "auto" }}
             onMouseEnter={() => setIsPhotoHovered(true)}
             onMouseLeave={() => setIsPhotoHovered(false)}
             onClick={(e) => { e.preventDefault(); setIsPhotoPinned((v) => !v); }}
           >
-            {initials}
+            <span
+              ref={initialsRef}
+              className="navbar-title-text"
+              style={{ opacity: showPhoto ? 0 : 1 }}
+            >
+              {initials}
+            </span>
+            <span
+              ref={fullNameRef}
+              className="navbar-title-text"
+              style={{ opacity: showPhoto ? 1 : 0 }}
+            >
+              {bio?.fullName ?? initials}
+            </span>
           </a>
           <div className={`navbar-photo-popup${showPhoto ? " visible" : ""}`}>
             {bio?.photo ? (
-              <img src={bio.photo} alt={bio.name} />
+              <img src={bio.photo} alt={bio.fullName} />
             ) : (
               <span>{initials}</span>
             )}

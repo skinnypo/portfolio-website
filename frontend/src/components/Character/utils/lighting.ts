@@ -3,16 +3,16 @@ import { RGBELoader } from "three-stdlib";
 import { gsap } from "gsap";
 
 const setLighting = (scene: THREE.Scene) => {
-  const ambientLight = new THREE.AmbientLight(0xe8d0a0, 0);
+  const ambientLight = new THREE.AmbientLight(0xf0e6d1, 0);
   scene.add(ambientLight);
 
   // Key light — front-facing, warms the character's face
-  const keyLight = new THREE.DirectionalLight(0xd4c080, 0);
+  const keyLight = new THREE.DirectionalLight(0xf0e6d1, 0);
   keyLight.position.set(0.5, 1, 2);
   scene.add(keyLight);
 
-  // Rim light — original back light kept for edge definition
-  const directionalLight = new THREE.DirectionalLight(0xd4a84b, 0);
+  // Rim light — terracotta accent for edge definition
+  const directionalLight = new THREE.DirectionalLight(0xbd5b4e, 0);
   directionalLight.intensity = 0;
   directionalLight.position.set(-0.47, -0.32, -1);
   directionalLight.castShadow = true;
@@ -22,7 +22,7 @@ const setLighting = (scene: THREE.Scene) => {
   directionalLight.shadow.camera.far = 50;
   scene.add(directionalLight);
 
-  const pointLight = new THREE.PointLight(0xd4a84b, 0, 100, 3);
+  const pointLight = new THREE.PointLight(0xbd5b4e, 0, 100, 3);
   pointLight.position.set(3, 12, 4);
   pointLight.castShadow = true;
   scene.add(pointLight);
@@ -49,12 +49,6 @@ const setLighting = (scene: THREE.Scene) => {
     gsap.to(ambientLight, { intensity: 0.8, duration, ease });
     gsap.to(keyLight, { intensity: 1.2, duration, ease });
     gsap.to(directionalLight, { intensity: 0.8, duration, ease });
-    gsap.to(".character-rim", {
-      y: "55%",
-      opacity: 1,
-      delay: 0.2,
-      duration: 2,
-    });
   }
 
   return { setPointLight, turnOnLights };

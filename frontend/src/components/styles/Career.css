@@ -134,8 +134,8 @@
   }
 
   100% {
-    box-shadow: 0px 0px 5px 2px var(--accentColor), 0px 0px 15px 5px rgba(var(--accentColorRGB), 0.6),
-      0px 0px 110px 20px rgba(var(--accentColorRGB), 0.25);
+    box-shadow: 0px 0px 5px 2px var(--backgroundColor), 0px 0px 15px 5px rgba(var(--backgroundColorRGB), 0.6),
+      0px 0px 110px 20px rgba(var(--backgroundColorRGB), 0.25);
   }
 }
 

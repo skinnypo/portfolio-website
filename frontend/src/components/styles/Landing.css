@@ -72,7 +72,7 @@
 
   .landing-h2-1 {
     font-size: 22px !important;
-    color: var(--accentColor);
+    color: var(--backgroundColor);
     font-weight: 700;
   }
 
@@ -87,6 +87,8 @@
   margin: auto;
   position: relative;
   height: var(--vh);
+  background-color: var(--accentBright);
+  color: var(--backgroundColor);
 }
 
 .landing-container {
@@ -98,6 +100,7 @@
 }
 
 .nav-fade {
+  display: none;
   position: fixed;
   top: 0;
   width: 100%;
@@ -192,7 +195,7 @@
 
 .landing-intro h2 {
   margin: 0;
-  color: var(--accentColor);
+  color: var(--backgroundColor);
   font-size: 22px;
   font-weight: 300;
   letter-spacing: 2px;
@@ -223,7 +226,7 @@
   font-size: 22px;
   letter-spacing: 2px;
   font-weight: 300;
-  color: var(--accentColor);
+  color: var(--backgroundColor);
   margin: 0;
 }
 
@@ -253,7 +256,7 @@
 }
 
 h2.landing-info-h2 {
-  color: var(--accentColor);
+  color: var(--backgroundColor);
   font-size: 28px;
   width: 150%;
   margin: 0;
@@ -269,17 +272,26 @@ h2.landing-info-h2 {
 }
 
 
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 300px) {
   .landing-circle2 {
     display: block;
   }
 
+  .landing-intro {
+    margin-top: 35%;
+  }
+
   .character-model {
-    z-index: 0;
+    z-index: 1;
+  }
+
+  .landing-h2-1 {
+    color: var(--accentBright);
   }
 
   .landing-info h3 {
     font-size: 18px;
+    color: var(--accentBright);
   }
 
   .landing-intro h2 {
@@ -304,6 +316,18 @@ h2.landing-info-h2 {
 @media screen and (min-width: 768px) {
   .character-model {
     height: 80vh;
+  }
+
+  .landing-intro {
+    margin-top: 0;
+  }
+
+  .landing-h2-1 {
+    color: var(--backgroundColor);
+  }
+
+  .landing-info h3 {
+    color: var(--backgroundColor);
   }
 
   .landing-intro h2 {

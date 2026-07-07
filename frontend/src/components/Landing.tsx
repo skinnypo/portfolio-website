@@ -3,7 +3,7 @@ import "./styles/Landing.css";
 import content from "../data";
 
 const Landing = ({ children }: PropsWithChildren) => {
-  const name = content.bio?.name ?? "Krisna";
+  const name = content.bio?.nickName ?? "Krisna";
   const nameParts = name.split(" ");
   const firstName = nameParts[0];
   const lastName = nameParts.slice(1).join(" ");

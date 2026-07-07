@@ -15,38 +15,52 @@
 }
 
 .cta-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   padding: 14px 32px;
+  margin-right: 16px;
   font-size: 15px;
   font-weight: 500;
   text-decoration: none;
-  border-radius: 8px;
+  color: var(--textColor);
+  border: none;
+  border-radius: 0;
   transition: all 0.3s ease;
   letter-spacing: 0.3px;
 }
 
-.cta-btn-play {
-  background: rgba(var(--accentColorRGB), 0.08);
-  color: var(--textColor);
-  border: 2px solid rgba(var(--accentColorRGB), 0.4);
+.cta-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(100% - 1px);
+  width: 32px;
+  height: 100%;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 50%, 100% 100%, 0 100%);
+  pointer-events: none;
 }
 
-.cta-btn-play:hover {
-  background: rgba(var(--accentColorRGB), 0.14);
-  box-shadow: 0 8px 30px rgba(var(--accentColorRGB), 0.15);
+.cta-btn:hover {
+  color: var(--backgroundColor);
   transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(var(--accentColorRGB), 0.35);
+}
+
+.cta-btn-play {
+  background: var(--accentColor);
+}
+
+.cta-btn-play::after {
+  background-color: var(--accentColor);
 }
 
 .cta-btn-hire {
   background: var(--accentBright);
-  color: var(--textColor);
-  border: 2px solid var(--textColor);
 }
 
-.cta-btn-hire:hover {
-  box-shadow: 0 8px 30px rgba(var(--accentColorRGB), 0.35);
-  transform: translateY(-2px);
+.cta-btn-hire::after {
+  background-color: var(--accentBright);
 }
 
 /* Responsive */
