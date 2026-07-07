@@ -5,7 +5,7 @@ echo "Fetching content from database..."
 node scripts/fetch-content.mjs
 
 echo "Building frontend..."
-NODE_OPTIONS=--max-old-space-size=4096 pnpm build
+NODE_OPTIONS=--max-old-space-size=4096 pnpm exec vite build
 
 echo "Copying dist to nginx volume..."
 cp -r dist/* /dist/

@@ -135,9 +135,6 @@ importers:
       globals:
         specifier: ^15.9.0
         version: 15.15.0
-      terser:
-        specifier: ^5.46.0
-        version: 5.48.0
       typescript:
         specifier: ^5.5.3
         version: 5.9.3
