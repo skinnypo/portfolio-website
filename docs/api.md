@@ -95,213 +95,31 @@ Constraints: `messages` array must have 1–50 items. Each item must have `role`
 
 ---
 
-## Admin endpoints
+## Strapi content API
 
-All admin endpoints require a `Bearer` JWT token in the `Authorization` header.
+Content (bio, projects, experience, skills) is not served by this Express backend at all — it lives in Strapi, which exposes its own REST API and admin UI, reverse-proxied by nginx at `/cms/*` (stripped before forwarding, so Strapi sees plain `/api/...` and `/admin` paths). See [architecture.md](architecture.md) for the full request path.
+
+Base URL (internal, Docker network): `http://strapi:1337`
+Base URL (through nginx): `https://yourdomain.com/cms`
+
+**These base URLs are not interchangeable with this doc's `/api` base above** — Strapi's endpoints live under its own `/api/*`, which only resolves correctly when combined with one of the two base URLs directly above (e.g. `https://yourdomain.com/cms/api/bio`), never with `https://yourdomain.com/api` (that's the Express backend, and it has no `/bio`/`/projects`/etc. routes).
+
+Content types, mirroring `strapi/src/api/*/content-types/*/schema.json`:
+
+| Content type | Kind | Full path (through nginx) |
+|---|---|---|
+| `bio` | single type | `GET /cms/api/bio` |
+| `project` | collection type | `GET /cms/api/projects` |
+| `experience` | collection type | `GET /cms/api/experiences` |
+| `skill` | collection type | `GET /cms/api/skills` |
+
+Reads used by the build script require a `Bearer` API token (`STRAPI_API_TOKEN`, created in the Strapi admin under Settings → API Tokens as a **Read-only** token):
 
 ```
-Authorization: Bearer <token>
+Authorization: Bearer <STRAPI_API_TOKEN>
 ```
 
-Tokens are obtained from `POST /admin/login` and expire after 24 hours.
-
----
-
-### `POST /admin/login`
-
-Authenticate and obtain a JWT token.
-
-**Request body**
-```json
-{ "password": "string" }
-```
-
-**Response 200**
-```json
-{ "token": "eyJ..." }
-```
-
-**Response 401** — wrong password or no admin credential seeded
-```json
-{ "error": "Unauthorized" }
-```
-
----
-
-### `GET /admin/bio`
-
-Get the portfolio owner's bio.
-
-**Response 200**
-```json
-{
-  "id": 1,
-  "name": "string",
-  "title": "string",
-  "description": "string",
-  "aboutDescription": "string",
-  "location": "string",
-  "email": "string",
-  "github": "string (URL)",
-  "linkedin": "string (URL)",
-  "twitter": "string (URL) | null",
-  "facebook": "string (URL) | null",
-  "instagram": "string (URL) | null",
-  "photo": "string (path) | null",
-  "updatedAt": "ISO 8601"
-}
-```
-
----
-
-### `PUT /admin/bio`
-
-Update the bio. All fields required except optional social links and photo.
-
-**Request body** — same shape as GET response (minus `id` and `updatedAt`)
-
-**Response 200** — updated bio object
-
----
-
-### `GET /admin/projects`
-
-List all projects ordered by `order` field.
-
-**Response 200** — array of project objects
-```json
-[
-  {
-    "id": 1,
-    "title": "string",
-    "category": "string",
-    "technologies": "string",
-    "image": "string (URL) | null",
-    "description": "string",
-    "order": 0,
-    "updatedAt": "ISO 8601"
-  }
-]
-```
-
----
-
-### `POST /admin/projects`
-
-Create a project.
-
-**Request body**
-```json
-{
-  "title": "string",
-  "category": "string",
-  "technologies": "string",
-  "image": "string (URL, optional)",
-  "description": "string",
-  "order": 0
-}
-```
-
-**Response 201** — created project object
-
----
-
-### `PUT /admin/projects/:id`
-
-Update a project.
-
-**Response 200** — updated project object
-**Response 404** — project not found
-
----
-
-### `DELETE /admin/projects/:id`
-
-Delete a project.
-
-**Response 204** — no content
-**Response 404** — project not found
-
----
-
-### `GET /admin/experience`
-
-List all experience entries ordered by `order`.
-
-**Response 200**
-```json
-[
-  {
-    "id": 1,
-    "position": "string",
-    "company": "string",
-    "period": "string",
-    "location": "string",
-    "description": "string",
-    "responsibilities": ["string"],
-    "technologies": ["string"],
-    "order": 0
-  }
-]
-```
-
----
-
-### `POST /admin/experience`
-
-Create an experience entry.
-
----
-
-### `PUT /admin/experience/:id`
-
-Update an experience entry.
-
----
-
-### `DELETE /admin/experience/:id`
-
-Delete an experience entry.
-
----
-
-### `GET /admin/skills`
-
-List all skills grouped by category.
-
----
-
-### `POST /admin/skills`
-
-Create a skill.
-
-**Request body**
-```json
-{
-  "category": "string",
-  "name": "string",
-  "order": 0
-}
-```
-
----
-
-### `PUT /admin/skills/:id` / `DELETE /admin/skills/:id`
-
-Update or delete a skill.
-
----
-
-### `POST /admin/upload`
-
-Upload an image file (multipart/form-data). Returns the public path to the uploaded file.
-
-**Request** — `multipart/form-data` with field `file` (image, max 2 MB)
-
-**Response 200**
-```json
-{ "url": "/uploads/filename.jpg" }
-```
+`frontend/scripts/fetch-content.mjs` calls these endpoints once at Docker build time (`GET /api/bio?populate=*`, `GET /api/projects?populate=*&sort=order:asc&...`, etc.), reshapes the response into `frontend/src/data/content.json`, and that static file — not this API — is what the running site reads. Writes (creating/editing content) happen only through the Strapi admin UI at `/cms/admin`, which has its own authentication unrelated to this backend.
 
 ---
 
@@ -310,6 +128,7 @@ Upload an image file (multipart/form-data). Returns the public path to the uploa
 | Status | Meaning |
 |---|---|
 | 400 | Validation failed (Zod) or bad request |
-| 401 | Missing or invalid JWT token |
 | 404 | Resource not found |
 | 500 | Server error or missing environment variable |
+
+For Strapi's own error responses (e.g. `401` for an invalid `STRAPI_API_TOKEN`), see Strapi's REST API docs — they follow Strapi's own error shape, not this backend's `{ "error": string }` convention.

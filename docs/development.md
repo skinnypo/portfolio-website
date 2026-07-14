@@ -4,7 +4,7 @@
 
 | Tool | Version | Install |
 |---|---|---|
-| Node.js | 20+ | [nodejs.org](https://nodejs.org) |
+| Node.js | 22+ | [nodejs.org](https://nodejs.org) |
 | pnpm | 9+ | `npm i -g pnpm` |
 | Docker + Compose | latest | [docker.com](https://docker.com) |
 | PostgreSQL (optional) | 16 | local install or use Docker |
@@ -32,47 +32,69 @@ POSTGRES_USER=portfolio
 POSTGRES_PASSWORD=changeme
 POSTGRES_DB=portfolio
 POSTGRES_HOST=localhost
-JWT_SECRET=any-long-random-string
-ADMIN_PASSWORD=your-admin-password
+STRAPI_DATABASE_URL=postgresql://portfolio:changeme@postgres:5432/strapi
+STRAPI_APP_KEYS=dev-key-one,dev-key-two
+STRAPI_ADMIN_JWT_SECRET=dev-random-string
+STRAPI_API_TOKEN_SALT=dev-random-string
+STRAPI_TRANSFER_TOKEN_SALT=dev-random-string
+STRAPI_JWT_SECRET=dev-random-string
+STRAPI_ENCRYPTION_KEY=dev-random-string
 ALLOW_ORIGIN=http://localhost:5173
 ```
 
-`GEMINI_API_KEY` is needed for the AI chat to work. All other optional keys (`GMAIL_*`, `TURNSTILE_*`, `VITE_GA_ID`) can be left empty — those features degrade gracefully.
+`DATABASE_URL` uses `localhost` because it's only ever read by Prisma CLI commands running natively on your host (`make db-migrate`, `make db-studio`) — Postgres's port is published to the host by `docker-compose.dev.yml`. `STRAPI_DATABASE_URL` must use `postgres` (the Compose service name) instead, because it's only ever read by the Dockerized `strapi` service, which resolves `postgres` via Docker's internal DNS, not `localhost`. Don't swap these — `localhost` inside the `strapi` container resolves to the container itself, not the Postgres container, and Strapi will fail its healthcheck (which also blocks `frontend-builder` in Option A below, since it depends on `strapi` being healthy).
+
+`GEMINI_API_KEY` is needed for the AI chat to work. All other optional keys (`GMAIL_*`, `TURNSTILE_*`, `VITE_GA_ID`) can be left empty — those features degrade gracefully. Leave `STRAPI_API_TOKEN` blank for now — you'll generate it in the next step.
+
+### 4. Start Strapi and create your admin account + API token
+
+```bash
+make dev-db                                # postgres only
+docker compose -f docker-compose.dev.yml up -d --wait postgres  # wait for the healthcheck before continuing
+make dev-db-create-strapi                  # one-time, only if reusing an existing volume
+docker compose -f docker-compose.dev.yml up -d strapi
+```
+
+Visit `http://localhost:1337/admin`, complete the setup wizard to create your admin account, then create a **Read-only** API token under Settings → API Tokens and set it as `STRAPI_API_TOKEN` in `.env`. `frontend-builder` and the local `fetch-content.mjs` script both need this token to read content.
 
 ## Option A — Docker (simplest)
 
 ```bash
-make up-build
+make dev-up
 ```
 
-This builds everything and starts all services. Visit [http://localhost](http://localhost).
+This builds and starts the full dev stack (`postgres`, `backend`, `strapi`, `frontend-builder`, `nginx`) from `docker-compose.dev.yml`. Visit [http://localhost](http://localhost). The CMS admin is at [http://localhost/cms/admin](http://localhost/cms/admin).
 
 To see logs:
 ```bash
-make logs          # all services
-make logs-backend  # backend only
+docker compose -f docker-compose.dev.yml logs -f           # all services
+docker compose -f docker-compose.dev.yml logs -f backend   # backend only
+docker compose -f docker-compose.dev.yml logs -f strapi    # strapi only
 ```
 
 To stop:
 ```bash
-make down
+make dev-down
 ```
 
 ## Option B — Local (faster iteration)
 
-Run the database via Docker, backend and frontend natively.
+Run the database and Strapi via Docker, backend and frontend natively.
 
-### 1. Start PostgreSQL only
+### 1. Start PostgreSQL and Strapi
 
 ```bash
-docker compose up postgres -d
+make dev-db
+docker compose -f docker-compose.dev.yml up -d strapi
 ```
 
-### 2. Run migrations and seed
+(Already running if you completed step 4 of First-time setup above.)
+
+### 2. Run backend migrations and seed
 
 ```bash
 make db-migrate    # prisma migrate dev
-make db-seed       # seed admin credentials + sample data
+make db-seed       # no-op — content and admin credentials now live in Strapi
 ```
 
 ### 3. Start backend
@@ -85,10 +107,12 @@ make dev-backend
 
 ### 4. Fetch content and start frontend
 
-The frontend needs `src/data/content.json` to exist. Run the fetch script once:
+The frontend needs `src/data/content.json` to exist. `fetch-content.mjs` reads `STRAPI_URL`/`STRAPI_API_TOKEN` straight from the process environment (it does not load `.env` itself), and defaults `STRAPI_URL` to the Docker-internal `http://strapi:1337` — override it for a natively-running Strapi:
 
 ```bash
-cd frontend && node scripts/fetch-content.mjs && cd ..
+cd frontend
+STRAPI_URL=http://localhost:1337 STRAPI_API_TOKEN=<your-token-from-first-time-setup> node scripts/fetch-content.mjs
+cd ..
 ```
 
 Then start Vite:
@@ -105,7 +129,7 @@ Vite proxies `/api/*` to `http://localhost:3000`, so both dev servers work toget
 
 ```bash
 make db-migrate    # create and apply a new migration (prompts for name)
-make db-seed       # re-run seed (idempotent — won't duplicate credentials)
+make db-seed       # no-op — content and admin credentials now live in Strapi
 make db-studio     # open Prisma Studio at http://localhost:5555
 make db-reset      # drop + recreate DB, migrate, seed (destructive)
 ```
@@ -128,7 +152,6 @@ frontend/src/
 ├── components/        UI components (Navbar, About, Career, Work, etc.)
 │   └── styles/        Per-component CSS files
 ├── pages/
-│   ├── Admin.tsx      Content management panel
 │   ├── MyWorks.tsx    Projects gallery
 │   └── Play.tsx       Chess + AI chat
 ├── data/
@@ -143,29 +166,40 @@ frontend/src/
 
 backend/src/
 ├── routes/
-│   ├── admin/         Protected CRUD routes (bio, projects, experience, skills, upload)
 │   ├── contact.ts     Public contact form endpoint
 │   └── chat.ts        Public AI chat proxy endpoint
-├── repositories/      Thin Prisma wrappers (findAll, create, update, remove)
 ├── middleware/
-│   └── auth.ts        JWT verification middleware
-└── lib/
-    └── prisma.ts      Prisma client singleton
+│   └── rateLimiter.ts Rate limiting
+└── seed.ts            No-op — content and admin credentials now live in Strapi
+
+strapi/src/api/
+├── bio/                Single type: fullName, nickName, title, headline, description,
+│                       location, email, github, linkedin, twitter, facebook, instagram, photo
+├── project/            Collection type: title, category, technologies, image, description, order
+├── experience/         Collection type: position, company, period, location, description,
+│                       responsibilities, technologies, order
+└── skill/              Collection type: category, name, order
 ```
+
+There is no `frontend/src/pages/Admin.tsx`, `backend/src/routes/admin/`, or `backend/src/middleware/auth.ts` anymore — all removed when content management moved to Strapi.
 
 ## Content update workflow
 
-Because content is baked at build time, changes made via the Admin panel only appear on the live site after a rebuild:
+Because content is baked at build time, changes made in the Strapi admin only appear on the live site after a rebuild:
 
 ```bash
-# 1. Make changes in /admin panel
+# 1. Make changes in the Strapi admin at /cms/admin
 # 2. Rebuild frontend-builder
-docker compose up frontend-builder --build
-# 3. Restart nginx to pick up new files (usually automatic via volume)
-docker compose restart nginx
+make rebuild-content
 ```
 
-In production you'd typically automate this with a webhook or a manual deploy trigger.
+`make rebuild-content` targets `docker-compose.prod.yml` only — it's for production. If you're on the dev stack (Option A), rebuild the dev `frontend-builder` directly instead:
+
+```bash
+docker compose -f docker-compose.dev.yml up -d --force-recreate frontend-builder
+```
+
+In production nginx runs natively on the host and reads the rebuilt files straight off disk, so no restart is needed — see [deployment.md](deployment.md). In production you'd typically automate the rebuild step with a webhook or a manual deploy trigger.
 
 ## Environment variables reference
 
@@ -190,7 +224,7 @@ The project uses `eslint-plugin-react-hooks` and `eslint-plugin-react-refresh`. 
 The lockfile must be in the Docker build context. Ensure `.dockerignore` does not exclude `pnpm-lock.yaml`. (This was a known bug — fixed.)
 
 ### `content.json not found` or import error
-Run `node scripts/fetch-content.mjs` from the `frontend/` directory, or ensure `DATABASE_URL` is set.
+Run `node scripts/fetch-content.mjs` from the `frontend/` directory, ensuring `STRAPI_URL` and `STRAPI_API_TOKEN` are set in the process environment (see Option B, step 4 above).
 
 ### Backend won't start: `Cannot find module './routes/chat.js'`
 Run `make install` — the TypeScript source needs to be compiled or run via `tsx`. The `dev` script uses `tsx watch` which compiles on the fly.

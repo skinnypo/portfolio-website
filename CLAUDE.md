@@ -4,16 +4,18 @@ This file governs Claude's behavior in this repository. Read it before taking an
 
 ## Project overview
 
-A self-hosted 3D developer portfolio. Key architectural constraint: **content is baked at build time** — the frontend fetches from the database once during the Docker build and outputs a static JSON file. There is no runtime API call to the backend for page content.
+A self-hosted 3D developer portfolio. Key architectural constraint: **content is baked at build time** — the frontend fetches from Strapi's REST API once during the Docker build and outputs a static JSON file. There is no runtime API call for page content.
 
 ## Monorepo layout
 
 ```
 /                   ← repo root (pnpm workspace)
 ├── backend/        ← Express + Prisma + PostgreSQL (port 3000)
+├── strapi/         ← Strapi CMS (content, admin at /cms/admin)
 ├── frontend/       ← Vite + React + Three.js (port 5173 dev)
-├── nginx/          ← Reverse proxy config (prod only)
-├── docker-compose.yml
+├── nginx/          ← Reverse proxy config — used by dev's Docker nginx service; prod nginx runs natively on the host using this as a reference
+├── docker-compose.dev.yml
+├── docker-compose.prod.yml
 ├── Makefile        ← all common dev tasks
 └── .env            ← single env file for all services
 ```
@@ -28,19 +30,19 @@ make dev-backend    # tsx watch (requires .env with DATABASE_URL)
 make dev-frontend   # vite --host
 make up-build       # full Docker rebuild + start
 make db-migrate     # prisma migrate dev
-make db-seed        # seed admin credentials + sample content
+make db-seed        # no-op — content and admin credentials now live in Strapi
 make db-studio      # Prisma Studio UI
 ```
 
 ## Backend conventions
 
-- **Framework**: Express 4 (Node 20)
+- **Framework**: Express 4 (Node 22)
 - **ORM**: Prisma 6 with PostgreSQL 16
 - **Validation**: always use Zod `safeParse` — never trust `req.body` directly
 - **Error handling**: every async route handler must wrap its body in `try { ... } catch (err) { next(err) }` — Express 4 does not catch async rejections automatically
 - **Error responses**: always `{ error: string }` shape
-- **Auth**: JWT via `jose`, verified by `authMiddleware` — all `/api/admin/*` routes except `/api/admin/login` require it
-- **Public routes**: `/api/health`, `/api/contact`, `/api/chat` — no auth
+- **Auth**: none — the backend has no admin routes or auth middleware. All content management now lives in Strapi (`strapi/`), which has its own admin auth at `/cms/admin`.
+- **Routes**: `/api/health`, `/api/contact`, `/api/chat` — all public, no auth
 
 ## Frontend conventions
 
@@ -60,7 +62,7 @@ Single `.env` at the repo root is shared by all services (Docker reads it via `e
 |---|---|
 | `POSTGRES_*` | Docker postgres service |
 | `DATABASE_URL` | Backend Prisma |
-| `JWT_SECRET`, `ADMIN_PASSWORD` | Backend auth |
+| `STRAPI_*` | Strapi service (DB URL, app keys, secrets, API token) |
 | `ALLOW_ORIGIN` | Backend CORS |
 | `GMAIL_*` | Backend contact route |
 | `TURNSTILE_*` | Backend + Frontend (CAPTCHA) |
@@ -69,9 +71,9 @@ Single `.env` at the repo root is shared by all services (Docker reads it via `e
 
 ## Docker service order
 
-`postgres` → `backend` (health-checked) → `frontend-builder` (build only, exits) → `nginx`
+`postgres` → `backend` (health-checked) and `strapi` (health-checked) → `frontend-builder` (build only, exits, depends on `strapi`) → `nginx` (dev only — see below)
 
-The `frontend-builder` service runs the build and writes static files to the `frontend_dist` shared volume. `nginx` serves those files.
+The `frontend-builder` service fetches content from Strapi's REST API, runs the build, and writes static files to the `frontend_dist` shared volume/bind mount. `nginx` serves those files and also proxies `/cms/*` to `strapi`. In `docker-compose.dev.yml`, `nginx` is itself a Docker service; in `docker-compose.prod.yml` there is no `nginx` service at all — it runs as a native host process instead, reading the same bind-mounted build output.
 
 ## What NOT to do
 
