@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
-import content from "./data";
 
 const CharacterModel = lazy(() => import("./components/Character"));
 const MainContainer = lazy(() => import("./components/MainContainer"));
@@ -29,15 +28,31 @@ const CanonicalUrl = () => {
   return null;
 };
 
-const App = () => {
-  const { bio } = content;
-  if (bio) {
-    document.title = `${bio.fullName} — ${bio.title}`;
-  }
+const PAGE_TITLES: Record<string, string> = {
+  "/": "I Putu Krisna | Data Engineer",
+  "/myworks": "Projects | I Putu Krisna",
+  "/play": "Play Chess | I Putu Krisna",
+};
 
+const PageTitle = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const normalizedPath = location.pathname.toLowerCase().replace(/\/+$/, "") || "/";
+    const pageTitle = PAGE_TITLES[normalizedPath];
+    if (pageTitle) {
+      document.title = pageTitle;
+    }
+  }, [location.pathname]);
+
+  return null;
+};
+
+const App = () => {
   return (
     <BrowserRouter>
       <CanonicalUrl />
+      <PageTitle />
       <Routes>
         <Route
           path="/"
