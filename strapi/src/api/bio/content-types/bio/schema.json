@@ -29,6 +29,12 @@
       "multiple": false,
       "required": false,
       "allowedTypes": ["images"]
+    },
+    "lifePhotos": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"]
     }
   }
 }

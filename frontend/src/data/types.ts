@@ -13,6 +13,7 @@ export interface Bio {
   facebook: string | null
   instagram: string | null
   photo: string | null
+  lifePhotos: string[]
   updatedAt: string
 }
 

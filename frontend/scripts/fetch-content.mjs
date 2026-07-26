@@ -31,6 +31,10 @@ function mediaUrl(media) {
   return media?.url ?? null
 }
 
+function mediaUrls(media) {
+  return Array.isArray(media) ? media.map((m) => m.url).filter(Boolean) : []
+}
+
 const [bioRes, articlesRes, experienceRes, skillsRes] = await Promise.all([
   fetchJson('/api/bio?populate=*'),
   fetchJson('/api/articles?populate=*&sort=order:asc&pagination[pageSize]=100'),
@@ -55,6 +59,7 @@ const bio = bioData
       facebook: bioData.facebook ?? null,
       instagram: bioData.instagram ?? null,
       photo: mediaUrl(bioData.photo),
+      lifePhotos: mediaUrls(bioData.lifePhotos),
       updatedAt: bioData.updatedAt,
     }
   : null
