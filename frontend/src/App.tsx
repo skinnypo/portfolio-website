@@ -8,6 +8,7 @@ const MyWorks = lazy(() => import("./pages/MyWorks"));
 const Play = lazy(() => import("./pages/Play"));
 const ArticleDetail = lazy(() => import("./pages/ArticleDetail"));
 const Stories = lazy(() => import("./pages/Stories"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 import { LoadingProvider } from "./context/LoadingProvider";
 import Cursor from "./components/Cursor";
 import content from "./data";
@@ -48,6 +49,7 @@ const PAGE_DESCRIPTIONS: Record<string, string> = {
 
 const ARTICLE_PATH_PREFIX = "/articles/";
 const ARTICLE_JSONLD_ID = "article-jsonld";
+const NOT_FOUND_TITLE = "Page Not Found | I Putu Krisna";
 
 function setMetaTag(selector: string, createAttrs: Record<string, string>, value: string) {
   let el = document.querySelector<HTMLMetaElement>(selector);
@@ -75,7 +77,7 @@ const PageTitle = () => {
       const article = content.articles.find((a) => a.slug.toLowerCase() === slug);
 
       if (!article) {
-        document.title = "Article Not Found | I Putu Krisna";
+        document.title = NOT_FOUND_TITLE;
         removeArticleJsonLd();
         return;
       }
@@ -108,9 +110,7 @@ const PageTitle = () => {
     removeArticleJsonLd();
     setMetaTag('meta[property="og:image"]', { property: "og:image" }, `${siteUrl}/images/mypicnbg.png`);
     const pageTitle = PAGE_TITLES[normalizedPath];
-    if (pageTitle) {
-      document.title = pageTitle;
-    }
+    document.title = pageTitle ?? NOT_FOUND_TITLE;
     const pageDescription = PAGE_DESCRIPTIONS[normalizedPath];
     if (pageDescription) {
       setMetaTag('meta[name="description"]', { name: "description" }, pageDescription);
@@ -172,6 +172,14 @@ const App = () => {
           element={
             <Suspense fallback={<div>Loading...</div>}>
               <Stories />
+            </Suspense>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <NotFound />
             </Suspense>
           }
         />

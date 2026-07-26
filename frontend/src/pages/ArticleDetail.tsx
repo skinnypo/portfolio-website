@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import content from "../data";
 import { formatTopic } from "../utils/topics";
+import NotFoundMessage from "../components/NotFoundMessage";
 import "./ArticleDetail.css";
 
 const ArticleDetail = () => {
@@ -29,19 +30,7 @@ const ArticleDetail = () => {
   };
 
   if (!article) {
-    return (
-      <div className="article-page">
-        <div className="article-header">
-          <button type="button" className="back-button" onClick={handleRideBack} data-cursor="disable">
-            ← Ride Back
-          </button>
-        </div>
-        <div className="article-not-found">
-          <h1>Article not found</h1>
-          <p>This one doesn't exist, or it's moved on.</p>
-        </div>
-      </div>
-    );
+    return <NotFoundMessage />;
   }
 
   return (
