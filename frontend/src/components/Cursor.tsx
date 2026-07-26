@@ -10,19 +10,17 @@ const PARTICLE_MIN_VIEWPORT_WIDTH = 600;
 const Cursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLDivElement>(null);
-  const stateRef = useRef({ hover: false, disabled: false });
+  const stateRef = useRef({ disabled: false });
   const location = useLocation();
 
   // Clicking a `data-cursor="disable"` link to navigate unmounts it before the
   // browser ever fires "mouseout" on it (route change swaps the DOM instantly),
-  // so the disable/icons state can get stuck across a client-side navigation.
+  // so the disabled state can get stuck across a client-side navigation.
   // Force a clean slate on every route change.
   useEffect(() => {
     const cursor = cursorRef.current;
     if (!cursor) return;
-    cursor.classList.remove("cursor-disable", "cursor-icons");
-    gsap.set(cursor, { rotation: 45 });
-    stateRef.current.hover = false;
+    cursor.classList.remove("cursor-disable");
     stateRef.current.disabled = false;
   }, [location.pathname]);
 
@@ -58,24 +56,22 @@ const Cursor = () => {
     };
 
     let rafId = requestAnimationFrame(function loop(time: number) {
-      if (!stateRef.current.hover) {
-        const delay = 6;
-        cursorPos.x += (mousePos.x - cursorPos.x) / delay;
-        cursorPos.y += (mousePos.y - cursorPos.y) / delay;
-        gsap.to(cursor, { x: cursorPos.x, y: cursorPos.y, duration: 0.1 });
+      const delay = 6;
+      cursorPos.x += (mousePos.x - cursorPos.x) / delay;
+      cursorPos.y += (mousePos.y - cursorPos.y) / delay;
+      gsap.to(cursor, { x: cursorPos.x, y: cursorPos.y, duration: 0.1 });
 
-        if (!stateRef.current.disabled && window.innerWidth >= PARTICLE_MIN_VIEWPORT_WIDTH) {
-          const dist = Math.hypot(
-            cursorPos.x - lastParticle.x,
-            cursorPos.y - lastParticle.y
-          );
-          if (
-            time - lastParticle.time > PARTICLE_INTERVAL_MS &&
-            dist > PARTICLE_MIN_DISTANCE
-          ) {
-            spawnParticle(cursorPos.x, cursorPos.y);
-            lastParticle = { x: cursorPos.x, y: cursorPos.y, time };
-          }
+      if (!stateRef.current.disabled && window.innerWidth >= PARTICLE_MIN_VIEWPORT_WIDTH) {
+        const dist = Math.hypot(
+          cursorPos.x - lastParticle.x,
+          cursorPos.y - lastParticle.y
+        );
+        if (
+          time - lastParticle.time > PARTICLE_INTERVAL_MS &&
+          dist > PARTICLE_MIN_DISTANCE
+        ) {
+          spawnParticle(cursorPos.x, cursorPos.y);
+          lastParticle = { x: cursorPos.x, y: cursorPos.y, time };
         }
       }
       rafId = requestAnimationFrame(loop);
@@ -88,13 +84,6 @@ const Cursor = () => {
       const target = (e.target as HTMLElement).closest<HTMLElement>("[data-cursor]");
       if (!target) return;
 
-      if (target.dataset.cursor === "icons") {
-        const rect = target.getBoundingClientRect();
-        cursor.classList.add("cursor-icons");
-        gsap.to(cursor, { x: rect.left, y: rect.top, rotation: 0, duration: 0.1 });
-        cursor.style.setProperty("--cursorH", `${rect.height}px`);
-        stateRef.current.hover = true;
-      }
       if (target.dataset.cursor === "disable") {
         cursor.classList.add("cursor-disable");
         stateRef.current.disabled = true;
@@ -105,11 +94,7 @@ const Cursor = () => {
       const target = (e.target as HTMLElement).closest<HTMLElement>("[data-cursor]");
       if (!target) return;
 
-      cursor.classList.remove("cursor-disable", "cursor-icons");
-      if (stateRef.current.hover) {
-        gsap.to(cursor, { rotation: 45, duration: 0.2 });
-      }
-      stateRef.current.hover = false;
+      cursor.classList.remove("cursor-disable");
       stateRef.current.disabled = false;
     };
 
