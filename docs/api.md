@@ -54,22 +54,28 @@ Send a contact form message via Gmail.
 
 ### `POST /chat`
 
-Proxy a chat message to Google Gemini 2.0 Flash. Returns the raw Gemini OpenAI-compat response.
+Proxy a chat message to OpenRouter. Model is set via `OPENROUTER_MODEL` (defaults to `openai/gpt-oss-20b:free` if unset). The server builds and prepends its own persona/guardrail system prompt server-side from `persona` — clients cannot send a `system`-role message to override it. Returns the raw OpenRouter OpenAI-compat response.
 
 **Request body**
 ```json
 {
   "messages": [
-    { "role": "system",    "content": "string (max 4000)" },
     { "role": "user",      "content": "string (max 4000)" },
     { "role": "assistant", "content": "string (max 4000)" }
-  ]
+  ],
+  "persona": {
+    "name": "string (1-60)",
+    "title": "string (1-80)",
+    "location": "string (0-80, optional)",
+    "about": "string (0-400, optional)",
+    "projects": "string (0-300, optional)"
+  }
 }
 ```
 
-Constraints: `messages` array must have 1–50 items. Each item must have `role` ∈ `[user, assistant, system]` and non-empty `content`.
+Constraints: `messages` array must have 1–50 items. Each item must have `role` ∈ `[user, assistant]` (a client-sent `system` role is rejected) and non-empty `content`. `persona` is required; `name` and `title` are required, the rest optional.
 
-**Response 200** — Gemini OpenAI-compatible response
+**Response 200** — OpenRouter OpenAI-compatible response
 ```json
 {
   "choices": [
@@ -88,9 +94,9 @@ Constraints: `messages` array must have 1–50 items. Each item must have `role`
 { "error": "Invalid input" }
 ```
 
-**Response 500** — `GEMINI_API_KEY` not configured
+**Response 500** — `OPENROUTER_API_KEY` not configured
 ```json
-{ "error": "Server configuration error: Missing GEMINI_API_KEY" }
+{ "error": "Server configuration error: Missing OPENROUTER_API_KEY" }
 ```
 
 ---

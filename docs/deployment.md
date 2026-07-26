@@ -71,8 +71,8 @@ GMAIL_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx
 TURNSTILE_SECRET_KEY=<secret>
 VITE_TURNSTILE_SITE_KEY=<site-key>
 
-# Google Gemini
-GEMINI_API_KEY=AIza...
+# OpenRouter
+OPENROUTER_API_KEY=sk-or-v1-...
 
 # Optional
 VITE_GA_ID=G-XXXXXXXXXX

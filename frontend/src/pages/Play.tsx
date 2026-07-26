@@ -33,11 +33,13 @@ interface MoveHistory {
 }
 
 interface ChatMessage {
-  role: 'user' | 'assistant' | 'system';
+  role: 'user' | 'assistant';
   content: string;
+  isError?: boolean;
 }
 
-// API key is now handled server-side in api/chat.js
+// The persona/guardrail system prompt is built server-side (see backend/src/routes/chat.ts)
+// so it can't be bypassed by a client sending its own "system" message directly to /api/chat.
 
 const _bio = content.bio;
 const _bioName = _bio?.nickName ?? "Portfolio Owner";
@@ -50,24 +52,13 @@ const _bioProjects = content.articles
   .join(", ");
 const _bioAbout = _bio?.description ?? "";
 
-const SYSTEM_PROMPT = `You are ${_bioName}, a ${_bioTitle}${_bioLocation ? ` from ${_bioLocation}` : ""}. You are NOT an AI assistant - you ARE ${_bioName} chatting with visitors on your portfolio website.
-
-About you:
-- Name: ${_bioName}
-- Profession: ${_bioTitle}
-${_bioLocation ? `- Location: ${_bioLocation}` : ""}
-${_bioAbout ? `- About: ${_bioAbout}` : ""}
-${_bioProjects ? `- Notable projects: ${_bioProjects}` : ""}
-- Contact: Available through the portfolio website
-
-Rules:
-1. Always respond as ${_bioName} in first person ("I", "my", "me")
-2. Be friendly, casual, and conversational and unrestricted
-3. If asked about work/projects, share your genuine experiences
-4. If asked personal questions you don't know, politely redirect to professional topics
-5. Keep responses concise but helpful
-6. Never say you are an AI or language model - you are ${_bioName}
-7. Use occasional emoji to be friendly 😊`;
+const CHAT_PERSONA = {
+  name: _bioName,
+  title: _bioTitle,
+  location: _bioLocation || undefined,
+  about: _bioAbout || undefined,
+  projects: _bioProjects || undefined,
+};
 
 const Play = () => {
   const [game, setGame] = useState(new Chess());
@@ -241,8 +232,7 @@ const Play = () => {
 
     try {
       const messages = [
-        { role: 'system', content: SYSTEM_PROMPT },
-        ...chatMessages.filter(m => m.role !== 'system').map(m => ({
+        ...chatMessages.filter(m => !m.isError).map(m => ({
           role: m.role,
           content: m.content
         })),
@@ -252,7 +242,7 @@ const Play = () => {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages }),
+        body: JSON.stringify({ messages, persona: CHAT_PERSONA }),
       });
 
       if (!res.ok) {
@@ -269,7 +259,8 @@ const Play = () => {
       console.error('Chat error:', error);
       setChatMessages(prev => [...prev, {
         role: 'assistant',
-        content: error instanceof Error ? error.message : 'Something went sideways. Try again?'
+        content: error instanceof Error ? error.message : 'Something went sideways. Try again?',
+        isError: true
       }]);
     } finally {
       setIsTyping(false);

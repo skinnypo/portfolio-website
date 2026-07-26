@@ -98,7 +98,7 @@ This is the most important architectural constraint. The frontend does **not** c
 |---|---|
 | `GET /api/health` | Docker health check probe |
 | `POST /api/contact` | Contact form → Gmail |
-| `POST /api/chat` | AI chat → Google Gemini |
+| `POST /api/chat` | AI chat → OpenRouter |
 
 ## Content API (Strapi)
 

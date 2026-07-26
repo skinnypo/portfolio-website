@@ -8,7 +8,7 @@ export const globalLimiter = rateLimit({
   message: { error: 'Too many requests, please try again later' },
 })
 
-// Chat calls hit Gemini API — cap per IP to avoid abuse
+// Chat calls hit OpenRouter API — cap per IP to avoid abuse
 export const chatLimiter = rateLimit({
   windowMs: 60 * 1000,
   limit: 15,

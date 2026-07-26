@@ -44,7 +44,7 @@ ALLOW_ORIGIN=http://localhost:5173
 
 `DATABASE_URL` uses `localhost` because it's only ever read by Prisma CLI commands running natively on your host (`make db-migrate`, `make db-studio`) — Postgres's port is published to the host by `docker-compose.dev.yml`. `STRAPI_DATABASE_URL` must use `postgres` (the Compose service name) instead, because it's only ever read by the Dockerized `strapi` service, which resolves `postgres` via Docker's internal DNS, not `localhost`. Don't swap these — `localhost` inside the `strapi` container resolves to the container itself, not the Postgres container, and Strapi will fail its healthcheck (which also blocks `frontend-builder` in Option A below, since it depends on `strapi` being healthy).
 
-`GEMINI_API_KEY` is needed for the AI chat to work. All other optional keys (`GMAIL_*`, `TURNSTILE_*`, `VITE_GA_ID`) can be left empty — those features degrade gracefully. Leave `STRAPI_API_TOKEN` blank for now — you'll generate it in the next step.
+`OPENROUTER_API_KEY` is needed for the AI chat to work. All other optional keys (`GMAIL_*`, `TURNSTILE_*`, `VITE_GA_ID`) can be left empty — those features degrade gracefully. Leave `STRAPI_API_TOKEN` blank for now — you'll generate it in the next step.
 
 ### 4. Start Strapi and create your admin account + API token
 

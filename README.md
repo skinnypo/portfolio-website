@@ -7,7 +7,7 @@ A self-hosted developer portfolio with a 3D WebGL experience, chess mini-game, a
 - 3D character model and interactive WebGL environment (Three.js / React Three Fiber)
 - Portfolio sections: bio, projects, experience, tech stack
 - Interactive chess game with a built-in engine
-- AI chat powered by Google Gemini (visitors can chat with an AI persona of the portfolio owner)
+- AI chat powered by OpenRouter (visitors can chat with an AI persona of the portfolio owner)
 - Contact form with Cloudflare Turnstile CAPTCHA
 - Strapi CMS admin to manage all content (bio, projects, experience, skills)
 - Fully containerized with Docker Compose (`make up-build` / `make dev-up`)
@@ -20,7 +20,7 @@ A self-hosted developer portfolio with a 3D WebGL experience, chess mini-game, a
 | Backend | Node 22, Express 4, Prisma 6 |
 | CMS | Strapi 5 |
 | Database | PostgreSQL 16 |
-| AI | Google Gemini 2.0 Flash |
+| AI | OpenRouter (model configurable via `OPENROUTER_MODEL`) |
 | Infra | Docker Compose, nginx |
 
 ## Quick start
@@ -48,7 +48,7 @@ STRAPI_API_TOKEN_SALT=<random-string>
 STRAPI_TRANSFER_TOKEN_SALT=<random-string>
 STRAPI_JWT_SECRET=<random-string>
 STRAPI_ENCRYPTION_KEY=<random-string>
-GEMINI_API_KEY=AIza...          # get free at aistudio.google.com
+OPENROUTER_API_KEY=sk-or-v1-... # get free at openrouter.ai/keys
 ALLOW_ORIGIN=https://yourdomain.com
 VITE_SITE_URL=https://yourdomain.com
 ```

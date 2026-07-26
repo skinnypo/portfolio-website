@@ -66,7 +66,7 @@ Single `.env` at the repo root is shared by all services (Docker reads it via `e
 | `ALLOW_ORIGIN` | Backend CORS |
 | `GMAIL_*` | Backend contact route |
 | `TURNSTILE_*` | Backend + Frontend (CAPTCHA) |
-| `GEMINI_API_KEY` | Backend chat route |
+| `OPENROUTER_API_KEY`, `OPENROUTER_MODEL` | Backend chat route |
 | `VITE_*` | Frontend (baked into JS bundle at build) |
 
 ## Docker service order
