@@ -16,13 +16,16 @@ export interface Bio {
   updatedAt: string
 }
 
-export interface Project {
+export interface Article {
   id: number
   title: string
-  category: string
-  technologies: string
-  image: string | null
+  slug: string
+  topic: string
+  subtopic: string | null
   description: string
+  technologies: string | null
+  coverImage: string | null
+  body: string
   order: number
   updatedAt: string
 }
@@ -43,7 +46,7 @@ export type SkillsByCategory = Record<string, string[]>
 
 export interface SiteContent {
   bio: Bio | null
-  projects: Project[]
+  articles: Article[]
   experience: Experience[]
   skillsByCategory: SkillsByCategory
 }

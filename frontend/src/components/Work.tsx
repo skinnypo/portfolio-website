@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect } from "react";
 import content from "../data";
 import { Link } from "react-router-dom";
+import { isWorkTopic } from "../utils/topics";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -60,22 +61,33 @@ const Work = () => {
           THINGS I'VE <span>MADE</span>
         </h2>
         <div className="work-flex">
-          {content.projects.slice(0, 3).map((project, index) => (
-            <div className="work-box" key={project.id}>
-              <div className="work-info">
-                <div className="work-title">
-                  <h3>0{index + 1}</h3>
-                  <div>
-                    <h4>{project.title}</h4>
-                    <p>{project.category}</p>
+          {content.articles
+            .filter((article) => isWorkTopic(article.topic))
+            .sort((a, b) => a.order - b.order)
+            .slice(0, 3)
+            .map((article, index) => (
+              <Link
+                to={`/articles/${article.slug}`}
+                className="work-box"
+                key={article.id}
+                data-cursor="disable"
+              >
+                <div className="work-info">
+                  <div className="work-title">
+                    <h3>0{index + 1}</h3>
+                    <div>
+                      <h4>{article.title}</h4>
+                      {article.subtopic && <p>{article.subtopic}</p>}
+                    </div>
                   </div>
+                  <p>{article.description}</p>
+                  {article.technologies && (
+                    <p className="work-technologies">{article.technologies}</p>
+                  )}
                 </div>
-                <p>{project.description}</p>
-                <p className="work-technologies">{project.technologies}</p>
-              </div>
-              <WorkImage image={project.image ?? ""} alt={project.title} />
-            </div>
-          ))}
+                <WorkImage image={article.coverImage ?? ""} alt={article.title} />
+              </Link>
+            ))}
           <div className="work-box work-box-cta">
             <div className="see-all-works">
               <h3>Want to see more?</h3>

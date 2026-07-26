@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Chess, Square, PieceSymbol, Color } from "chess.js";
 import RedoxChessEngine from "../utils/redoxchessEngine";
 import content from "../data";
+import { isWorkTopic } from "../utils/topics";
 import "./Play.css";
 
 // Piece SVG components matching chess.com style with custom colors
@@ -42,7 +43,11 @@ const _bio = content.bio;
 const _bioName = _bio?.nickName ?? "Portfolio Owner";
 const _bioTitle = _bio?.title ?? "Developer";
 const _bioLocation = _bio?.location ?? "";
-const _bioProjects = content.projects.slice(0, 3).map((p) => p.title).join(", ");
+const _bioProjects = content.articles
+  .filter((a) => isWorkTopic(a.topic))
+  .slice(0, 3)
+  .map((a) => a.title)
+  .join(", ");
 const _bioAbout = _bio?.description ?? "";
 
 const SYSTEM_PROMPT = `You are ${_bioName}, a ${_bioTitle}${_bioLocation ? ` from ${_bioLocation}` : ""}. You are NOT an AI assistant - you ARE ${_bioName} chatting with visitors on your portfolio website.

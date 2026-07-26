@@ -2,11 +2,12 @@ import { PropsWithChildren, useEffect, useState } from "react";
 import About from "./About";
 import Career from "./Career";
 import ContactForm from "./ContactForm";
+import DomeSheet from "./DomeSheet";
 import Footer from "./Footer";
-import Cursor from "./Cursor";
 import Landing from "./Landing";
 import Navbar from "./Navbar";
 import SocialIcons from "./SocialIcons";
+import StoriesSection from "./StoriesSection";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import setSplitText from "./utils/splitText";
@@ -30,7 +31,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
 
   return (
     <div className="container-main">
-      <Cursor />
+      <DomeSheet />
       <Navbar />
       <SocialIcons />
       {children}
@@ -40,6 +41,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
         <WhatIDo />
         <Career />
         <Work />
+        <StoriesSection />
         <ContactForm />
         <Footer />
       </div>

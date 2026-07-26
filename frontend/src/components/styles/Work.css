@@ -90,17 +90,23 @@
   text-align: right;
 }
 
+.work-title p {
+  text-transform: uppercase;
+}
+
 .work-title h3 {
   font-size: 50px;
   line-height: 50px;
   margin: 0;
   font-weight: 600;
+  color: var(--backgroundColor);
 }
 
 .work-info h4 {
   font-size: 26px;
   font-weight: 500;
   margin: 0;
+  color: var(--backgroundColor);
 }
 
 .work-info p {

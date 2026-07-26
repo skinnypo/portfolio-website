@@ -20,16 +20,25 @@
     <meta name="description" content="Portfolio of I Putu Krisna, a Data Engineer in Indonesia specializing in Databricks, Snowflake, and scalable data pipelines." />
     <meta name="keywords" content="data engineer, Databricks, Snowflake, Delta Lake, PySpark, Apache Spark, data pipelines, AI, generative AI, BigQuery, Unity Catalog, Python, Indonesia, portfolio" />
     <meta name="author" content="I Putu Krisna" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
     <link rel="canonical" href="%VITE_SITE_URL%" />
+    <link rel="help" type="text/plain" href="/llms.txt" />
+
+    <!-- Geo -->
+    <meta name="geo.region" content="ID" />
+    <meta name="geo.placename" content="Indonesia" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="%VITE_SITE_URL%" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="I Putu Krisna" />
     <meta property="og:title" content="I Putu Krisna — Data Engineer" />
     <meta property="og:description" content="Portfolio of I Putu Krisna, a Data Engineer in Indonesia specializing in Databricks, Snowflake, and scalable data pipelines." />
     <meta property="og:image" content="%VITE_SITE_URL%/images/mypicnbg.png" />
     <meta property="og:image:width" content="447" />
     <meta property="og:image:height" content="559" />
+    <meta property="og:image:alt" content="I Putu Krisna, Data Engineer" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -41,18 +50,30 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "I Putu Krisna",
-        "jobTitle": "Data Engineer",
-        "url": "%VITE_SITE_URL%",
-        "image": "%VITE_SITE_URL%/images/mypicnbg.png",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "ID"
-        },
-        "sameAs": [
-          "https://github.com/skinnypo",
-          "https://www.linkedin.com/in/iptkrisna/"
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "%VITE_SITE_URL%/#person",
+            "name": "I Putu Krisna",
+            "jobTitle": "Data Engineer",
+            "url": "%VITE_SITE_URL%",
+            "image": "%VITE_SITE_URL%/images/mypicnbg.png",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "ID"
+            },
+            "sameAs": [
+              "https://github.com/skinnypo",
+              "https://www.linkedin.com/in/iptkrisna/"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "%VITE_SITE_URL%/#website",
+            "url": "%VITE_SITE_URL%",
+            "name": "I Putu Krisna",
+            "publisher": { "@id": "%VITE_SITE_URL%/#person" }
+          }
         ]
       }
     </script>

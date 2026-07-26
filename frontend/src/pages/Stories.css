@@ -1,18 +1,50 @@
-/* Override body overflow for myworks page */
-body:has(.myworks-page) {
+/* Override body overflow for stories page */
+body:has(.stories-page) {
   overflow: auto !important;
 }
 
-.myworks-page {
+.stories-page {
   min-height: 100vh;
   background-color: var(--backgroundColor);
   padding: 80px 40px;
   box-sizing: border-box;
 }
 
-.myworks-header {
+.stories-header {
   text-align: center;
   margin-bottom: 60px;
+}
+
+.stories-filter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.stories-filter-btn {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--textColorRGB), 0.25);
+  background: transparent;
+  color: var(--textColor);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stories-filter-btn:hover {
+  border-color: var(--accentColor);
+  color: var(--accentColor);
+}
+
+.stories-filter-btn.active {
+  background: var(--accentColor);
+  border-color: var(--accentColor);
+  color: var(--backgroundColor);
 }
 
 .back-button,
@@ -62,23 +94,23 @@ body:has(.myworks-page) {
   box-shadow: 0 8px 30px rgba(var(--accentColorRGB), 0.35);
 }
 
-.myworks-header h1 {
+.stories-header h1 {
   font-size: 70px;
   font-weight: 500;
   margin-bottom: 15px;
   color: var(--textColor);
 }
 
-.myworks-header h1 span {
+.stories-header h1 span {
   color: var(--accentColor);
 }
 
-.myworks-header p {
+.stories-header p {
   font-size: 18px;
   color: rgba(var(--textColorRGB), 0.65);
 }
 
-.myworks-grid {
+.stories-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 30px;
@@ -86,7 +118,8 @@ body:has(.myworks-page) {
   margin: 0 auto;
 }
 
-.myworks-card {
+.stories-card {
+  display: block;
   background: rgba(var(--accentColorRGB), 0.04);
   border: 2px solid rgba(var(--textColorRGB), 0.15);
   border-radius: 15px;
@@ -95,13 +128,13 @@ body:has(.myworks-page) {
   position: relative;
 }
 
-.myworks-card:hover {
+.stories-card:hover {
   transform: translateY(-10px);
   border-color: var(--accentColor);
   box-shadow: 0 20px 40px rgba(var(--accentColorRGB), 0.2);
 }
 
-.myworks-card-number {
+.stories-card-number {
   position: absolute;
   top: 15px;
   left: 15px;
@@ -114,7 +147,7 @@ body:has(.myworks-page) {
   z-index: 1;
 }
 
-.myworks-card-image {
+.stories-card-image {
   width: 100%;
   height: 220px;
   overflow: hidden;
@@ -123,58 +156,51 @@ body:has(.myworks-page) {
   background-color: var(--backgroundColor);
 }
 
-.myworks-card-image img {
+.stories-card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-.myworks-card:hover .myworks-card-image img {
+.stories-card:hover .stories-card-image img {
   transform: scale(1.05);
 }
 
-.myworks-card-info {
+.stories-card-info {
   padding: 25px;
 }
 
-.myworks-card-info h3 {
+.stories-card-info h3 {
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 8px;
   color: var(--textColor);
 }
 
-.myworks-card-category {
+.stories-card-topic {
   font-size: 14px;
   color: var(--accentColor);
   margin-bottom: 12px;
 }
 
-.myworks-card-description {
+.stories-card-description {
   font-size: 14px;
   color: rgba(var(--textColorRGB), 0.75);
   line-height: 1.6;
-  margin-bottom: 15px;
-}
-
-.myworks-card-tech {
-  font-size: 13px;
-  color: rgba(var(--textColorRGB), 0.55);
-  line-height: 1.5;
 }
 
 /* Responsive */
 @media only screen and (max-width: 768px) {
-  .myworks-page {
+  .stories-page {
     padding: 60px 20px;
   }
 
-  .myworks-header h1 {
+  .stories-header h1 {
     font-size: 45px;
   }
 
-  .myworks-grid {
+  .stories-grid {
     grid-template-columns: 1fr;
   }
 }

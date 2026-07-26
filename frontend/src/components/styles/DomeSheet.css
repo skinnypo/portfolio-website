@@ -1,0 +1,9 @@
+.dome-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  pointer-events: none;
+}

@@ -31,9 +31,9 @@ function mediaUrl(media) {
   return media?.url ?? null
 }
 
-const [bioRes, projectsRes, experienceRes, skillsRes] = await Promise.all([
+const [bioRes, articlesRes, experienceRes, skillsRes] = await Promise.all([
   fetchJson('/api/bio?populate=*'),
-  fetchJson('/api/projects?populate=*&sort=order:asc&pagination[pageSize]=100'),
+  fetchJson('/api/articles?populate=*&sort=order:asc&pagination[pageSize]=100'),
   fetchJson('/api/experiences?populate=*&sort=order:asc&pagination[pageSize]=100'),
   fetchJson('/api/skills?sort=order:asc&pagination[pageSize]=100'),
 ])
@@ -59,15 +59,18 @@ const bio = bioData
     }
   : null
 
-const projects = projectsRes.data.map((p) => ({
-  id: p.id,
-  title: p.title,
-  category: p.category,
-  technologies: p.technologies,
-  image: mediaUrl(p.image),
-  description: p.description,
-  order: p.order,
-  updatedAt: p.updatedAt,
+const articles = articlesRes.data.map((a) => ({
+  id: a.id,
+  title: a.title,
+  slug: a.slug,
+  topic: a.topic,
+  subtopic: a.subtopic ?? null,
+  description: a.description,
+  technologies: a.technologies ?? null,
+  coverImage: mediaUrl(a.coverImage),
+  body: a.body,
+  order: a.order,
+  updatedAt: a.updatedAt,
 }))
 
 const experience = experienceRes.data.map((e) => ({
@@ -89,7 +92,7 @@ const skillsByCategory = skillsRes.data.reduce((acc, s) => {
 
 writeFileSync(
   path.join(__dirname, '../src/data/content.json'),
-  JSON.stringify({ bio, projects, experience, skillsByCategory }, null, 2)
+  JSON.stringify({ bio, articles, experience, skillsByCategory }, null, 2)
 )
 
 if (bio?.fullName) {
@@ -102,5 +105,38 @@ if (bio?.fullName) {
 </svg>\n`
   )
 }
+
+// llms.txt — a plain-text summary for AI agents/LLMs crawling the site,
+// generated from the same baked content rather than hand-maintained (would
+// go stale otherwise, since articles change independently of this script).
+const SITE_URL = process.env.VITE_SITE_URL ?? ''
+const isWork = (topic) => (topic ?? '').trim().toLowerCase() === 'work'
+const workArticles = articles.filter((a) => isWork(a.topic))
+const storyArticles = articles.filter((a) => !isWork(a.topic))
+
+const llmsLines = [
+  `# ${bio?.fullName ?? 'Portfolio'}`,
+  '',
+  bio?.headline ?? bio?.title ?? '',
+  bio?.description ?? '',
+  '',
+  `Source: ${SITE_URL || '/'}`,
+  '',
+]
+if (workArticles.length) {
+  llmsLines.push('## Work', '')
+  workArticles.forEach((a) => {
+    llmsLines.push(`- [${a.title}](${SITE_URL}/articles/${a.slug}) — ${a.description}`)
+  })
+  llmsLines.push('')
+}
+if (storyArticles.length) {
+  llmsLines.push('## Stories', '')
+  storyArticles.forEach((a) => {
+    llmsLines.push(`- [${a.title}](${SITE_URL}/articles/${a.slug}) — ${a.topic}: ${a.description}`)
+  })
+  llmsLines.push('')
+}
+writeFileSync(path.join(__dirname, '../public/llms.txt'), llmsLines.join('\n'))
 
 console.log('Content fetched successfully.')

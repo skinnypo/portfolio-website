@@ -192,6 +192,11 @@ const Navbar = () => {
             </a>
           </li>
           <li>
+            <a data-href="#stories" href="#stories">
+              <HoverLinks text="STORIES" />
+            </a>
+          </li>
+          <li>
             <a data-href="#get-in-touch" href="#get-in-touch">
               <HoverLinks text="CONTACT" />
             </a>
@@ -212,6 +217,11 @@ const Navbar = () => {
             <li>
               <a href="#work" onClick={() => setIsOpen(false)}>
                 WORK
+              </a>
+            </li>
+            <li>
+              <a href="#stories" onClick={() => setIsOpen(false)}>
+                STORIES
               </a>
             </li>
             <li>
