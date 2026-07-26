@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Chess, Square, PieceSymbol, Color } from "chess.js";
 import RedoxChessEngine from "../utils/redoxchessEngine";
 import content from "../data";
-import { isWorkTopic } from "../utils/topics";
 import "./Play.css";
 
 // Piece SVG components matching chess.com style with custom colors
@@ -38,26 +37,42 @@ interface ChatMessage {
   isError?: boolean;
 }
 
-// The persona/guardrail system prompt is built server-side (see backend/src/routes/chat.ts)
-// so it can't be bypassed by a client sending its own "system" message directly to /api/chat.
+// The persona/guardrail system prompt is built server-side (see backend/src/routes/chat.ts),
+// which also picks which parts of this knowledge to include per-message so it can't be
+// bypassed by a client sending its own "system" message directly to /api/chat.
 
 const _bio = content.bio;
 const _bioName = _bio?.nickName ?? "Portfolio Owner";
-const _bioTitle = _bio?.title ?? "Developer";
-const _bioLocation = _bio?.location ?? "";
-const _bioProjects = content.articles
-  .filter((a) => isWorkTopic(a.topic))
-  .slice(0, 3)
-  .map((a) => a.title)
-  .join(", ");
-const _bioAbout = _bio?.description ?? "";
 
-const CHAT_PERSONA = {
-  name: _bioName,
-  title: _bioTitle,
-  location: _bioLocation || undefined,
-  about: _bioAbout || undefined,
-  projects: _bioProjects || undefined,
+const CHAT_KNOWLEDGE = {
+  identity: {
+    name: _bioName,
+    title: _bio?.title ?? "Developer",
+    location: _bio?.location || undefined,
+    headline: _bio?.headline || undefined,
+    about: _bio?.description || undefined,
+  },
+  contact: {
+    email: _bio?.email || undefined,
+    github: _bio?.github || undefined,
+    linkedin: _bio?.linkedin || undefined,
+  },
+  experience: content.experience.map((e) => ({
+    position: e.position,
+    company: e.company,
+    period: e.period,
+    description: e.description,
+    responsibilities: e.responsibilities,
+    technologies: e.technologies,
+  })),
+  skillsByCategory: content.skillsByCategory,
+  stories: content.articles.map((a) => ({
+    title: a.title,
+    topic: a.topic,
+    subtopic: a.subtopic || undefined,
+    description: a.description,
+    technologies: a.technologies || undefined,
+  })),
 };
 
 const Play = () => {
@@ -242,7 +257,7 @@ const Play = () => {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages, persona: CHAT_PERSONA }),
+        body: JSON.stringify({ messages, knowledge: CHAT_KNOWLEDGE }),
       });
 
       if (!res.ok) {

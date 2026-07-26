@@ -22,14 +22,20 @@ app.use(cors({
   },
   credentials: true,
 }))
-app.use(express.json())
 app.use(globalLimiter)
 
 app.get('/api/health', (_req, res) => { res.json({ status: 'ok' }) })
-app.use('/api/contact', contactLimiter, contactRouter)
-app.use('/api/chat', chatLimiter, chatRouter)
+app.use('/api/contact', express.json({ limit: '20kb' }), contactLimiter, contactRouter)
+app.use('/api/chat', express.json({ limit: '1mb' }), chatLimiter, chatRouter)
 
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  const bodyParserErr = err as Error & { type?: string; status?: number }
+  if (bodyParserErr.type === 'entity.too.large') {
+    return res.status(413).json({ error: 'Request body too large' })
+  }
+  if (bodyParserErr.type === 'entity.parse.failed') {
+    return res.status(400).json({ error: 'Invalid JSON' })
+  }
   console.error(err)
   res.status(500).json({ error: 'Internal server error' })
 })
