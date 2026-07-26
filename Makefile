@@ -116,7 +116,7 @@ image-push: image-build
 	@echo "IMAGE_TAG=$(TAG)"
 
 deploy: image-push
-	ssh -i credentials/key_pair/skinnypo.pem deploy@108.136.236.123 "cd 3d-portfolio && sed -i 's/^IMAGE_TAG=.*/IMAGE_TAG=$(TAG)/' .env && docker compose -f docker-compose.prod.yml pull && docker compose -f docker-compose.prod.yml up -d"
+	ssh -i credentials/key_pair/skinnypo.pem deploy@108.136.236.123 "cd 3d-portfolio && git pull && sed -i 's/^IMAGE_TAG=.*/IMAGE_TAG=$(TAG)/' .env && docker compose -f docker-compose.prod.yml pull && docker compose -f docker-compose.prod.yml up -d && docker system prune -a -f"
 
 # ── Database ─────────────────────────────────────────────────────────────────
 db-migrate:
