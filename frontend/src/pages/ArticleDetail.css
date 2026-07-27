@@ -160,6 +160,10 @@ body:has(.article-page) {
     padding: 60px 20px;
   }
 
+  .article-header {
+    text-align: center;
+  }
+
   .article-content h1 {
     font-size: 32px;
   }
