@@ -37,9 +37,9 @@ interface ChatMessage {
   isError?: boolean;
 }
 
-// The persona/guardrail system prompt is built server-side (see backend/src/routes/chat.ts),
-// which also picks which parts of this knowledge to include per-message so it can't be
-// bypassed by a client sending its own "system" message directly to /api/chat.
+// The persona/guardrail system prompt is built server-side (see backend/src/routes/chat.ts)
+// from this knowledge, so it can't be bypassed by a client sending its own "system" message
+// directly to /api/chat.
 
 const _bio = content.bio;
 const _bioName = _bio?.nickName ?? "Portfolio Owner";
@@ -53,7 +53,6 @@ const CHAT_KNOWLEDGE = {
     about: _bio?.description || undefined,
   },
   contact: {
-    email: _bio?.email || undefined,
     github: _bio?.github || undefined,
     linkedin: _bio?.linkedin || undefined,
   },
